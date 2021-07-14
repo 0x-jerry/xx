@@ -1,21 +1,25 @@
-import { join, isAbsolute } from 'https://deno.land/std@0.101.0/path/mod.ts'
+import * as colors from 'https://deno.land/std@0.101.0/fmt/colors.ts'
 
-export function run(cmd: string, opt: Omit<Deno.RunOptions, 'cmd'>) {
-  return Deno.run({
-    cmd: cmd.trim().split(/\s+/g),
-    stdout: 'piped',
-    stderr: 'piped',
-    stdin: 'piped',
-    ...opt,
-  })
+function getFormatCmd(cmd: string[]) {
+  return [
+    '$',
+    // ['echo', 'hello world'] => $ echo 'hello world'
+    ...cmd.map((param) => (/\s/.test(param) ? `'${param}'` : param)),
+  ].join(' ')
 }
 
-export async function getConfig<T>(filePath: string): Promise<T> {
-  const file = isAbsolute(filePath) ? filePath : join(Deno.cwd(), filePath)
+export async function run(...cmd: string[]) {
+  console.log(colors.rgb24(getFormatCmd(cmd), 0x999999))
 
-  const fileContent = await Deno.readFile(file)
+  const program = Deno.run({
+    cmd: cmd,
+    stdout: 'inherit',
+    stderr: 'inherit',
+    stdin: 'inherit',
+  })
 
-  const str = new TextDecoder('utf-8').decode(fileContent)
+  const status = await program.status()
+  program.close()
 
-  return JSON.parse(str)
+  return status
 }

@@ -6,6 +6,6 @@
   "author": "0x-jerry <x.jerry.wang@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "deno run -A --no-check main.ts"
+    "dev": "deno run -A --no-check index.ts"
   }
 }
