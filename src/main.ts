@@ -18,7 +18,7 @@ await new Command()
     'upgrade',
     new UpgradeCommand({
       main: 'x.ts',
-      args: ['--allow-net', '--unstable'],
+      args: ['-A', '--unstable'],
       provider: new GithubProvider({
         repository: '0x-jerry/x',
       }),
