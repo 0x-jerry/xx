@@ -7,6 +7,6 @@ export const workflowCommand = new Command()
   .action(async () => {
     await run('yarn', 'build')
     await run('git', 'add', '.')
-    await run('git', 'commit', 'chore: build')
+    await run('git', 'commit', '-m', 'chore: build')
     await run('git', 'push')
   })
