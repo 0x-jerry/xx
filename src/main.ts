@@ -5,11 +5,13 @@ import {
 } from 'https://deno.land/x/cliffy@v0.19.2/command/mod.ts'
 import { UpgradeCommand } from 'https://deno.land/x/cliffy@v0.19.2/command/upgrade/mod.ts'
 import { GithubProvider } from 'https://deno.land/x/cliffy@v0.19.2/command/upgrade/provider/github.ts'
+import { version } from '../version.ts'
 
 import { workflowCommand } from './commands/workflow.ts'
 
 const x = new Command()
   .name('x')
+  .version(version)
   .description('Some useful command for myself.')
   .default('help')
   // help

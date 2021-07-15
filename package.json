@@ -7,6 +7,6 @@
   "license": "MIT",
   "scripts": {
     "dev": "deno run -A --no-check x.ts",
-    "release": "deno run --allow-read --allow-run --unstable scripts/release.ts"
+    "release": "deno run -A --unstable scripts/release.ts"
   }
 }
