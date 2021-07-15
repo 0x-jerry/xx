@@ -21,5 +21,7 @@ export async function run(...cmd: string[]) {
   const status = await program.status()
   program.close()
 
-  return status
+  if (!status.success) {
+    throw status
+  }
 }

@@ -1,11 +1,14 @@
 import {
   Command,
   HelpCommand,
+  CompletionsCommand,
 } from 'https://deno.land/x/cliffy@v0.19.2/command/mod.ts'
 import { UpgradeCommand } from 'https://deno.land/x/cliffy@v0.19.2/command/upgrade/mod.ts'
 import { GithubProvider } from 'https://deno.land/x/cliffy@v0.19.2/command/upgrade/provider/github.ts'
 
-await new Command()
+import { workflowCommand } from './commands/workflow.ts'
+
+const x = new Command()
   .name('x')
   .description('Some useful command for myself.')
   .default('help')
@@ -22,5 +25,14 @@ await new Command()
       }),
     }),
   )
-  // parse
-  .parse()
+  // completion
+  .command('completions', new CompletionsCommand())
+  // flow
+  .command('flow', workflowCommand)
+
+// parse
+try {
+  await x.parse()
+} catch {
+  // ignore
+}
