@@ -25,3 +25,13 @@ export async function run(...cmd: string[]) {
     throw status
   }
 }
+
+export function isObject(o: unknown): o is Record<string, unknown> {
+  return o !== null && typeof o === 'object'
+}
+
+export function sleep(ts = 1000) {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => resolve(), ts)
+  })
+}
