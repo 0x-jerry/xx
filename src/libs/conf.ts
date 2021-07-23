@@ -14,34 +14,60 @@ type SupportType =
   | { [key: string]: SupportType }
   | SupportType[]
 
+type SaveFn = (path: string, data: string) => void
+
 export interface ConfOption {
   path: string
-  save?: (path: string, data: string) => void | Promise<void>
+  save?: SaveFn
 }
 
+/**
+ * @example
+ *
+ * ```ts
+ * const [data, saving] = createConf({ a: 1, b: 1 }, { path: './config.json' })
+ *
+ * data.a++
+ * data.b++
+ *
+ * await saving() // Ensure all changes saved, will only save once.
+ *
+ * ```
+ *
+ * @param defaultValue
+ * @param option
+ * @returns
+ */
 export function createConf<T extends Record<string, SupportType>>(
-  option: ConfOption,
   defaultValue: T,
-): UnwrapNestedRefs<T> {
+  option: ConfOption,
+): [UnwrapNestedRefs<T>, () => Promise<void>] {
   const data = reactive(defaultValue)
+
+  let saving = Promise.resolve()
 
   let handler: number | undefined
 
   const saveData = () => {
-    clearTimeout(handler)
-    handler = setTimeout(() => {
-      option.save
-        ? option.save(option.path, JSON.stringify(data, null, 2))
-        : Deno.writeTextFile(option.path, JSON.stringify(data, null, 2))
+    return new Promise<void>((resolve) => {
+      clearTimeout(handler)
+
+      handler = setTimeout(() => {
+        const saveFn: SaveFn = option.save || Deno.writeTextFile
+
+        saveFn(option.path, JSON.stringify(data, null, 2))
+
+        resolve()
+      })
     })
   }
 
   effect(() => {
     traverse(data)
-    saveData()
+    saving = saveData()
   })
 
-  return data
+  return [data, () => saving]
 }
 
 /**
@@ -61,14 +87,4 @@ function traverse(o: unknown) {
       traverse(item)
     }
   }
-}
-
-if (import.meta.main) {
-  const a = createConf({ path: '' }, { a: 3 })
-  a.a++
-  a.a++
-  a.a++
-  a.a++
-  a.a++
-  a.a++
 }
