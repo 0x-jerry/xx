@@ -17,6 +17,9 @@ type SupportType =
 type SaveFn = (path: string, data: string) => void
 
 export interface ConfOption {
+  /**
+   * absolute path for saving
+   */
   path: string
   save?: SaveFn
 }
