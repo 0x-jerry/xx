@@ -31,8 +31,6 @@ export async function run(...cmd: string[]) {
 const decoder = new TextDecoder()
 
 export async function runPiped(...cmd: string[]) {
-  console.log(colors.rgb24(getFormatCmd(cmd), 0x999999))
-
   const program = Deno.run({
     cmd: cmd,
     stdout: 'piped',

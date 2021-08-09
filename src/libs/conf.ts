@@ -3,25 +3,20 @@ import {
   effect,
   UnwrapNestedRefs,
 } from 'https://cdn.skypack.dev/@vue/reactivity?dts'
-import { isObject } from '../utils.ts'
+import { ensureDir } from 'https://deno.land/std@0.101.0/fs/mod.ts'
+import { join } from 'https://deno.land/std@0.101.0/path/mod.ts'
+import { isObject, homedir } from '../utils.ts'
 
-type SupportType =
-  | boolean
-  | number
-  | string
-  | undefined
-  | null
-  | { [key: string]: SupportType }
-  | SupportType[]
+type SaveFn = (name: string, data: string) => void | Promise<void>
 
-type SaveFn = (path: string, data: string) => void
+const defaultSaveFn: SaveFn = async (name: string, data: string) => {
+  const home = homedir()
 
-export interface ConfOption {
-  /**
-   * absolute path for saving
-   */
-  path: string
-  save?: SaveFn
+  const confDir = join(home, '.x.conf')
+  await ensureDir(confDir)
+
+  const confPath = join(confDir, name)
+  await Deno.writeTextFile(confPath, data)
 }
 
 /**
@@ -41,9 +36,10 @@ export interface ConfOption {
  * @param option
  * @returns
  */
-export function createConf<T extends Record<string, SupportType>>(
+export function createConf<T extends Record<string, any>>(
+  name: string,
   defaultValue: T,
-  option: ConfOption,
+  save?: SaveFn,
 ): [UnwrapNestedRefs<T>, () => Promise<void>] {
   const data = reactive(defaultValue)
 
@@ -56,9 +52,9 @@ export function createConf<T extends Record<string, SupportType>>(
       clearTimeout(handler)
 
       handler = setTimeout(() => {
-        const saveFn: SaveFn = option.save || Deno.writeTextFile
+        const saveFn: SaveFn = save || defaultSaveFn
 
-        saveFn(option.path, JSON.stringify(data, null, 2))
+        saveFn(name, JSON.stringify(data, null, 2))
 
         resolve()
       })

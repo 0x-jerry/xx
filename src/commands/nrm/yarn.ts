@@ -1,5 +1,5 @@
 import { RegistryManager } from './base.ts'
-import { which, run, runPiped } from '../../utils.ts'
+import { which, runPiped } from '../../utils.ts'
 
 class Yarn extends RegistryManager {
   protected checkIsExist(): boolean {
@@ -22,7 +22,7 @@ class Yarn extends RegistryManager {
     }
 
     try {
-      await run('yarn', 'config', 'set', key, value)
+      await runPiped('yarn', 'config', 'set', key, value)
       return true
     } catch {
       return false

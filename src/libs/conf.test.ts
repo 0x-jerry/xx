@@ -10,7 +10,7 @@ Deno.test('createConfig', async () => {
     savedTimes++
   }
 
-  const [conf, ensureSaved] = createConf({ test: 0 }, { path: '_', save: fn })
+  const [conf, ensureSaved] = createConf('_', { test: 0 }, fn)
   conf.test++
   conf.test++
   await ensureSaved()

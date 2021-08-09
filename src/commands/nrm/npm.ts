@@ -1,5 +1,5 @@
 import { RegistryManager } from './base.ts'
-import { which, run, runPiped } from '../../utils.ts'
+import { which, runPiped } from '../../utils.ts'
 
 class Npm extends RegistryManager {
   protected checkIsExist(): boolean {
@@ -22,7 +22,7 @@ class Npm extends RegistryManager {
     }
 
     try {
-      await run('npm', 'config', 'set', key, value)
+      await runPiped('npm', 'config', 'set', key, value)
       return true
     } catch {
       return false
