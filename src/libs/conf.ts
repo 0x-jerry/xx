@@ -3,20 +3,36 @@ import {
   effect,
   UnwrapNestedRefs,
 } from 'https://cdn.skypack.dev/@vue/reactivity?dts'
-import { ensureDir } from 'https://deno.land/std@0.101.0/fs/mod.ts'
-import { join } from 'https://deno.land/std@0.101.0/path/mod.ts'
+import { ensureDir, exists } from 'https://deno.land/std@0.101.0/fs/mod.ts'
+import { join, dirname } from 'https://deno.land/std@0.101.0/path/mod.ts'
 import { isObject, homedir } from '../utils.ts'
 
-type SaveFn = (name: string, data: string) => void | Promise<void>
+type SaveFn = (name: string, data: string) => Promise<void>
+type ReadFn = (name: string) => Promise<string | null>
 
-const defaultSaveFn: SaveFn = async (name: string, data: string) => {
+const getConfPath = (name: string) => {
   const home = homedir()
 
-  const confDir = join(home, '.x.conf')
-  await ensureDir(confDir)
+  return join(home, '.x.conf', name)
+}
 
-  const confPath = join(confDir, name)
+const defaultSaveFn: SaveFn = async (name: string, data: string) => {
+  const confPath = getConfPath(name)
+  await ensureDir(dirname(confPath))
+
   await Deno.writeTextFile(confPath, data)
+}
+
+const defaultReadFn: ReadFn = async (name: string) => {
+  const confPath = getConfPath(name)
+
+  if (!(await exists(confPath))) {
+    return null
+  }
+
+  const data = await Deno.readTextFile(confPath)
+
+  return data
 }
 
 /**
@@ -36,12 +52,17 @@ const defaultSaveFn: SaveFn = async (name: string, data: string) => {
  * @param option
  * @returns
  */
-export function createConf<T extends Record<string, any>>(
+export async function createConf<T extends Record<string, any>>(
   name: string,
   defaultValue: T,
   save?: SaveFn,
-): [UnwrapNestedRefs<T>, () => Promise<void>] {
-  const data = reactive(defaultValue)
+  read?: ReadFn,
+): Promise<[UnwrapNestedRefs<T>, () => Promise<void>]> {
+  const readConf = read || defaultReadFn
+  const savedData = await readConf(name)
+  const defaultConf = savedData ? JSON.parse(savedData) : defaultValue
+
+  const data = reactive(defaultConf)
 
   let saving = Promise.resolve()
 

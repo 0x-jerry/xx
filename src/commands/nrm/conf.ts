@@ -34,6 +34,6 @@ export function defaultConfig(): NRMConfig {
   }
 }
 
-const [conf] = createConf('nrm.json', defaultConfig())
+const [conf] = await createConf('nrm.json', defaultConfig())
 
 export { conf }

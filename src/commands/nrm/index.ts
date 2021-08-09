@@ -1,9 +1,10 @@
 import * as colors from 'https://deno.land/std@0.101.0/fmt/colors.ts'
+import { Confirm } from 'https://deno.land/x/cliffy@v0.19.2/prompt/confirm.ts'
 import { npm } from './npm.ts'
 import { yarn } from './yarn.ts'
 import { RegistryManager } from './base.ts'
 import { printTable } from './print.ts'
-import { conf, NRMConfig } from './conf.ts'
+import { conf, NRMConfig, RegistryConfig } from './conf.ts'
 
 export type NodeRegistryType = 'npm' | 'yarn'
 
@@ -51,7 +52,7 @@ async function _printRegistry(registries: NRMConfig['registries']) {
   printTable(table)
 }
 
-export function use(registryName: string, manager?: NodeRegistryType) {
+export function useRegistry(registryName: string, manager?: NodeRegistryType) {
   const registryConf = conf.registries[registryName]
 
   if (!registryConf) {
@@ -80,6 +81,44 @@ export function use(registryName: string, manager?: NodeRegistryType) {
       `${registryName} - ${registryConf.registry}`,
     )}) for` +
       ` [${colors.green(Object.keys(managers).join(', '))}] successful!`,
+  )
+}
+
+export async function setRegistry(
+  name: string,
+  registry: RegistryConfig,
+  force = false,
+) {
+  const existConf = conf.registries[name]
+
+  if (existConf) {
+    if (!force) {
+      const isOverride = await Confirm.prompt({
+        message: `Found exist registry [${colors.yellow(name)}], override it ?`,
+        default: true,
+      })
+
+      if (!isOverride) {
+        return
+      }
+    }
+
+    conf.registries[name] = registry
+
+    console.log(
+      `Update registry [${colors.yellow(name)}](${colors.green(
+        registry.registry,
+      )}) successful.`,
+    )
+    return
+  }
+
+  conf.registries[name] = registry
+
+  console.log(
+    `Add registry [${colors.yellow(name)}](${colors.green(
+      registry.registry,
+    )}) successful.`,
   )
 }
 

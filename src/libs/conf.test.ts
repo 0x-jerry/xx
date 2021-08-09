@@ -8,9 +8,10 @@ Deno.test('createConfig', async () => {
   const fn = (_: string, d: string) => {
     savedData = d
     savedTimes++
+    return Promise.resolve()
   }
 
-  const [conf, ensureSaved] = createConf('_', { test: 0 }, fn)
+  const [conf, ensureSaved] = await createConf('_', { test: 0 }, fn)
   conf.test++
   conf.test++
   await ensureSaved()
