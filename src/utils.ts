@@ -1,5 +1,10 @@
 import * as colors from 'https://deno.land/std@0.101.0/fmt/colors.ts'
 
+export {
+  isObject,
+  sleep,
+} from 'https://raw.githubusercontent.com/0x-jerry/x-lib/v0.1.0/mod.ts'
+
 function getFormatCmd(cmd: string[]) {
   return [
     '$',
@@ -24,14 +29,4 @@ export async function run(...cmd: string[]) {
   if (!status.success) {
     throw status
   }
-}
-
-export function isObject(o: unknown): o is Record<string, unknown> {
-  return o !== null && typeof o === 'object'
-}
-
-export function sleep(ts = 1000) {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => resolve(), ts)
-  })
 }
