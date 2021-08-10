@@ -1,4 +1,4 @@
-import { RegistryManager } from './base.ts'
+import { RegistryManager } from './RegistryManager.ts'
 import { which, runPiped } from '../../utils.ts'
 
 class Yarn extends RegistryManager {
