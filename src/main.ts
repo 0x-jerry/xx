@@ -8,6 +8,8 @@ import { GithubProvider } from 'https://deno.land/x/cliffy@v0.19.2/command/upgra
 import { version } from '../version.ts'
 
 import { workflowCommand } from './commands/workflow.ts'
+import { confCommand } from './commands/conf.ts'
+import { nrmCommand } from './commands/nrm.ts'
 
 const x = new Command()
   .name('x')
@@ -31,6 +33,10 @@ const x = new Command()
   .command('completions', new CompletionsCommand())
   // flow
   .command('flow', workflowCommand)
+  // conf
+  .command('conf', confCommand)
+  // nrm
+  .command('nrm', nrmCommand)
 
 // parse
 try {

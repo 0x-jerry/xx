@@ -52,7 +52,10 @@ async function _printRegistry(registries: NRMConfig['registries']) {
   printTable(table)
 }
 
-export function useRegistry(registryName: string, manager?: NodeRegistryType) {
+export async function useRegistry(
+  registryName: string,
+  manager?: NodeRegistryType,
+) {
   const registryConf = conf.registries[registryName]
 
   if (!registryConf) {
@@ -62,7 +65,7 @@ export function useRegistry(registryName: string, manager?: NodeRegistryType) {
   }
 
   if (manager) {
-    managers[manager].setConfig('registry', registryConf.registry)
+    await managers[manager].setConfig('registry', registryConf.registry)
     console.log(
       `Set registry(${colors.yellow(registryName)}) for [${colors.green(
         manager,
@@ -73,7 +76,7 @@ export function useRegistry(registryName: string, manager?: NodeRegistryType) {
 
   for (const key in managers) {
     const manager = managers[key]
-    manager.setConfig('registry', registryConf.registry)
+    await manager.setConfig('registry', registryConf.registry)
   }
 
   console.log(
@@ -120,6 +123,27 @@ export async function setRegistry(
       registry.registry,
     )}) successful.`,
   )
+}
+
+export function removeRegistry(name: string) {
+  const exist = conf.registries[name]
+
+  if (!exist) {
+    console.log(`Not found registry for [${colors.yellow(name)}].\n`)
+    printRegistry()
+    return
+  }
+
+  delete conf.registries[name]
+  console.log(
+    `Delete registry [${colors.yellow(name)}](${colors.green(
+      exist.registry,
+    )}) successful.`,
+  )
+}
+
+export function printRegistry() {
+  _printRegistry(conf.registries)
 }
 
 if (import.meta.main) {

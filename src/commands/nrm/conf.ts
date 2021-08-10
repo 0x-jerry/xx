@@ -22,13 +22,9 @@ export function defaultConfig(): NRMConfig {
         home: 'https://yarnpkg.com',
         registry: 'https://registry.yarnpkg.com/',
       },
-      taobao: {
+      tb: {
         home: 'https://npm.taobao.org',
         registry: 'https://registry.npm.taobao.org/',
-      },
-      github: {
-        home: 'https://github.com/features/packages',
-        registry: 'https://npm.pkg.github.com',
       },
     },
   }

@@ -24,8 +24,6 @@ export async function run(...cmd: string[]) {
   if (!status.success) {
     throw status
   }
-
-  return program.output()
 }
 
 const decoder = new TextDecoder()
@@ -46,5 +44,5 @@ export async function runPiped(...cmd: string[]) {
   }
 
   const output = await program.output()
-  return decoder.decode(output)
+  return decoder.decode(output).trim()
 }

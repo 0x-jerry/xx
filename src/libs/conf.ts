@@ -10,7 +10,7 @@ import { isObject, homedir } from '../utils.ts'
 type SaveFn = (name: string, data: string) => Promise<void>
 type ReadFn = (name: string) => Promise<string | null>
 
-const getConfPath = (name: string) => {
+export const getConfPath = (name: string) => {
   const home = homedir()
 
   return join(home, '.x.conf', name)
