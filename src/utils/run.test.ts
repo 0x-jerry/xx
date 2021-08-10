@@ -1,7 +1,4 @@
-import {
-  assertEquals,
-  assertThrowsAsync,
-} from 'https://deno.land/std@0.101.0/testing/asserts.ts'
+import { assertEquals, assertThrowsAsync } from 'testing/asserts.ts'
 import { runPiped } from './run.ts'
 
 Deno.test('run result', async () => {

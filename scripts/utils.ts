@@ -1,4 +1,4 @@
-import { join, isAbsolute } from 'https://deno.land/std@0.101.0/path/mod.ts'
+import { join, isAbsolute } from 'path/mod.ts'
 
 export async function getConfig<T>(filePath: string): Promise<T> {
   const file = isAbsolute(filePath) ? filePath : join(Deno.cwd(), filePath)

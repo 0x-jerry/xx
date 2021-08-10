@@ -5,9 +5,7 @@ Some useful command for myself.
 ## Install
 
 ```sh
-$ deno install -qAf https://raw.githubusercontent.com/0x-jerry/x/main/x.ts
-# or
-$ deno install -qAf https://raw.githubusercontent.com/0x-jerry/x/v0.1.0/x.ts
+curl https://raw.githubusercontent.com/0x-jerry/x/main/install.sh | sh
 ```
 
 ## Command Completions

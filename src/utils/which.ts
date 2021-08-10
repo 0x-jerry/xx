@@ -1,5 +1,5 @@
-import { join } from 'https://deno.land/std@0.101.0/path/mod.ts'
-import { exists } from 'https://deno.land/std@0.101.0/fs/mod.ts'
+import { join } from 'path/mod.ts'
+import { exists } from 'fs/mod.ts'
 
 export async function which(cmd: string): Promise<string | null> {
   const PATH = Deno.env.get('PATH')

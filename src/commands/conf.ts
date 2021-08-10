@@ -1,6 +1,6 @@
-import * as colors from 'https://deno.land/std@0.101.0/fmt/colors.ts'
-import { Command } from 'https://deno.land/x/cliffy@v0.19.2/command/mod.ts'
-import { exists } from 'https://deno.land/std@0.101.0/fs/mod.ts'
+import * as colors from 'fmt/colors.ts'
+import { Command } from 'cliffy/command/mod.ts'
+import { exists } from 'fs/mod.ts'
 import { getConfPath } from '../libs/conf.ts'
 
 export const confCommand = new Command()

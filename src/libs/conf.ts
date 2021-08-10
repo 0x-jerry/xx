@@ -1,10 +1,6 @@
-import {
-  reactive,
-  effect,
-  UnwrapNestedRefs,
-} from 'https://cdn.skypack.dev/@vue/reactivity?dts'
-import { ensureDir, exists } from 'https://deno.land/std@0.101.0/fs/mod.ts'
-import { join, dirname } from 'https://deno.land/std@0.101.0/path/mod.ts'
+import { reactive, effect, UnwrapNestedRefs } from 'reactivity'
+import { ensureDir, exists } from 'fs/mod.ts'
+import { join, dirname } from 'path/mod.ts'
 import { isObject, homedir } from '../utils.ts'
 
 type SaveFn = (name: string, data: string) => Promise<void>

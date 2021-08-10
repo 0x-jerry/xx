@@ -1,7 +1,4 @@
-import {
-  Command,
-  EnumType,
-} from 'https://deno.land/x/cliffy@v0.19.2/command/mod.ts'
+import { Command, EnumType } from 'cliffy/command/mod.ts'
 import {
   useRegistry,
   setRegistry,

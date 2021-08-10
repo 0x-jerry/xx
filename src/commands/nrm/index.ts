@@ -1,5 +1,5 @@
-import * as colors from 'https://deno.land/std@0.101.0/fmt/colors.ts'
-import { Confirm } from 'https://deno.land/x/cliffy@v0.19.2/prompt/confirm.ts'
+import * as colors from 'fmt/colors.ts'
+import { Confirm } from 'cliffy/prompt/confirm.ts'
 import { npm } from './npm.ts'
 import { yarn } from './yarn.ts'
 import { RegistryManager } from './RegistryManager.ts'

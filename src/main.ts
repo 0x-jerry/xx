@@ -1,10 +1,6 @@
-import {
-  Command,
-  HelpCommand,
-  CompletionsCommand,
-} from 'https://deno.land/x/cliffy@v0.19.2/command/mod.ts'
-import { UpgradeCommand } from 'https://deno.land/x/cliffy@v0.19.2/command/upgrade/mod.ts'
-import { GithubProvider } from 'https://deno.land/x/cliffy@v0.19.2/command/upgrade/provider/github.ts'
+import { Command, HelpCommand, CompletionsCommand } from 'cliffy/command/mod.ts'
+import { UpgradeCommand } from 'cliffy/command/upgrade/mod.ts'
+import { GithubProvider } from 'cliffy/command/upgrade/provider/github.ts'
 import { version } from '../version.ts'
 
 import { workflowCommand } from './commands/workflow.ts'

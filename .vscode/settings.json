@@ -6,5 +6,6 @@
   "deno.suggest.imports.hosts": {
     "https://deno.land": true,
     "https://cdn.skypack.dev": true
-  }
+  },
+  "deno.importMap": "import_maps.json"
 }
