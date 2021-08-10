@@ -1,4 +1,4 @@
-import { Command, EnumType } from 'cliffy/command/mod.ts'
+import { Command, EnumType, HelpCommand } from 'cliffy/command/mod.ts'
 import {
   useRegistry,
   setRegistry,
@@ -10,6 +10,10 @@ const managerType = new EnumType(['npm', 'yarn'])
 
 export const nrmCommand = new Command()
   .description('Node registry manager')
+  .default('help')
+  .command('help', new HelpCommand())
+
+nrmCommand
   .command('use <name:string>', 'Use specific registry server by name.')
   .type('manager', managerType)
   .option('-m, --manager [manager:manager]', 'Registry manager type')
