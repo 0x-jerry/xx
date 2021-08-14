@@ -5,19 +5,15 @@ import { exists } from 'fs/mod.ts'
 
 export const runCommand = new Command()
   .description('Run custom command')
-  .option('-c, --config', 'Config file')
+  .option('-c, --config', 'Config file, default is x.conf.json')
   .arguments('<script:string> [...params:string]')
   .action(
-    async (opt: { config: string }, scriptName: string, params: string[]) => {
-      const cwd = Deno.cwd()
-
-      const path = opt.config
-        ? isAbsolute(opt.config)
-          ? opt.config
-          : join(cwd, opt.config)
-        : join(cwd, 'x.conf.json')
-
-      const str = await getCmd(path, scriptName)
+    async (
+      opt: { config: string },
+      scriptName: string,
+      params: string[] = [],
+    ) => {
+      const str = await getCmd(scriptName, opt.config)
 
       if (!str) {
         return
@@ -27,8 +23,32 @@ export const runCommand = new Command()
     },
   )
 
-async function getCmd(path: string, cmd: string): Promise<string | false> {
-  if (!(await exists(path))) {
+async function getConfigPath(config?: string) {
+  const cwd = Deno.cwd()
+
+  const path = config
+    ? isAbsolute(config)
+      ? config
+      : join(cwd, config)
+    : join(cwd, 'x.conf.json')
+
+  if (await exists(path)) {
+    return path
+  }
+
+  const pkgPath = join(cwd, 'package.json')
+
+  if (await exists(pkgPath)) {
+    return pkgPath
+  }
+
+  return false
+}
+
+async function getCmd(cmd: string, conf?: string): Promise<string | false> {
+  const path = await getConfigPath(conf)
+
+  if (!path) {
     return false
   }
 
