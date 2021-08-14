@@ -6,6 +6,7 @@
   "author": "0x-jerry <x.jerry.wang@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "deno": "deno run --import-map ./import_maps.json -A --no-check",
     "dev": "deno run --import-map ./import_maps.json -A --no-check x.ts",
     "release": "deno run --import-map ./import_maps.json -A --unstable scripts/release.ts",
     "test": "deno test --import-map ./import_maps.json --allow-env --allow-read --allow-run --unstable"
