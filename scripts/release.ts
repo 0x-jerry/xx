@@ -12,6 +12,8 @@ const options = types.map((type) => ({
   value: type,
 }))
 
+await run('yarn', 'test')
+
 const releaseType = await Select.prompt({
   message: 'Please select release type',
   options: options,
