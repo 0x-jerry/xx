@@ -6,6 +6,7 @@ import { version } from '../version.ts'
 import { workflowCommand } from './commands/workflow.ts'
 import { confCommand } from './commands/conf.ts'
 import { nrmCommand } from './commands/nrm.ts'
+import { runCommand } from './commands/run.ts'
 
 const x = new Command()
   .name('x')
@@ -34,6 +35,8 @@ const x = new Command()
   .command('conf', confCommand)
   // nrm
   .command('nrm', nrmCommand)
+  // nrm
+  .command('run', runCommand)
 
 // parse
 try {
