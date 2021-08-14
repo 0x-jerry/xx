@@ -5,8 +5,9 @@ import { exists } from 'fs/mod.ts'
 
 export const runCommand = new Command()
   .description('Run custom command')
+  .stopEarly()
+  .arguments('<script:string> [...params]')
   .option('-c, --config', 'Config file, default is x.conf.json')
-  .arguments('<script:string> [...params:string]')
   .action(
     async (
       opt: { config: string },
