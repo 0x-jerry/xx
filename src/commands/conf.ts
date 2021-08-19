@@ -19,6 +19,16 @@ export const confCommand = new Command()
       console.log(colors.yellow(`Not found config file: ${p}.`))
     }
   })
+  .command('ls', 'List all config files.')
+  .action(async () => {
+    const p = getConfPath('.')
+
+    const files = Deno.readDir(p)
+
+    for await (const file of files) {
+      console.log('-', file.name)
+    }
+  })
 
 if (import.meta.main) {
   confCommand.parse()
