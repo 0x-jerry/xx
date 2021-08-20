@@ -9,17 +9,26 @@ export const runCommand = new Command()
   .stopEarly()
   .arguments('<script:string> [...params]')
   .action(async (_, scriptName: string, params: string[] = []) => {
-    const cmdString = await getCmd(scriptName)
+    const [cmdString, allScripts] = await getScriptName(scriptName)
 
-    if (!cmdString) {
-      console.log(red('Script ['), cyan(`${scriptName}`), red('] Not found.'))
+    if (cmdString) {
+      await executeScript(cmdString, params)
       return
     }
 
-    const [cmd, ...args] = parseCmdStr(cmdString)
-
-    await run(await getCmdPath(cmd), ...args, ...params)
+    console.log(
+      red('Script ['),
+      cyan(`${scriptName}`),
+      red('] Not in the list: '),
+      allScripts.map((name) => cyan(name)).join(', '),
+    )
   })
+
+async function executeScript(name: string, params: string[]) {
+  const [cmd, ...args] = parseCmdStr(name)
+
+  await run(await getCmdPath(cmd), ...args, ...params)
+}
 
 async function getCmdPath(bin: string): Promise<string> {
   const nodeModuleBin = join(Deno.cwd(), 'node_modules', '.bin', bin)
@@ -49,18 +58,18 @@ async function getConfigPath() {
   return false
 }
 
-async function getCmd(cmd: string): Promise<string | false> {
+async function getScriptName(cmd: string): Promise<[string | false, string[]]> {
   const path = await getConfigPath()
 
   if (!path) {
-    return false
+    return [false, []]
   }
 
   const text = await Deno.readTextFile(path)
 
   const json = JSON.parse(text)
 
-  return json.scripts?.[cmd]
+  return [json.scripts?.[cmd], Object.keys(json.scripts || {})]
 }
 
 export function parseCmdStr(cmdStr: string): string[] {
