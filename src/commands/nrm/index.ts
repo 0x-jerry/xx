@@ -1,4 +1,4 @@
-import * as colors from 'fmt/colors.ts'
+import { yellow, green } from 'fmt/colors.ts'
 import { Confirm } from 'cliffy/prompt/confirm.ts'
 import { npm } from './npm.ts'
 import { yarn } from './yarn.ts'
@@ -59,7 +59,7 @@ export async function useRegistry(
   const registryConf = conf.registries[registryName]
 
   if (!registryConf) {
-    console.log(`Not found registry named [${colors.yellow(registryName)}]!\n`)
+    console.log(`Not found registry named [${yellow(registryName)}]!\n`)
     _printRegistry(conf.registries)
     return
   }
@@ -67,7 +67,7 @@ export async function useRegistry(
   if (manager) {
     await managers[manager].setConfig('registry', registryConf.registry)
     console.log(
-      `Set registry(${colors.yellow(registryName)}) for [${colors.green(
+      `Set registry(${yellow(registryName)}) for [${green(
         manager,
       )}] successful!`,
     )
@@ -80,10 +80,9 @@ export async function useRegistry(
   }
 
   console.log(
-    `Set registry(${colors.yellow(
+    `Set registry(${yellow(
       `${registryName} - ${registryConf.registry}`,
-    )}) for` +
-      ` [${colors.green(Object.keys(managers).join(', '))}] successful!`,
+    )}) for` + ` [${green(Object.keys(managers).join(', '))}] successful!`,
   )
 }
 
@@ -97,7 +96,7 @@ export async function setRegistry(
   if (existConf) {
     if (!force) {
       const isOverride = await Confirm.prompt({
-        message: `Found exist registry [${colors.yellow(name)}], override it ?`,
+        message: `Found exist registry [${yellow(name)}], override it ?`,
         default: true,
       })
 
@@ -109,7 +108,7 @@ export async function setRegistry(
     conf.registries[name] = registry
 
     console.log(
-      `Update registry [${colors.yellow(name)}](${colors.green(
+      `Update registry [${yellow(name)}](${green(
         registry.registry,
       )}) successful.`,
     )
@@ -119,9 +118,7 @@ export async function setRegistry(
   conf.registries[name] = registry
 
   console.log(
-    `Add registry [${colors.yellow(name)}](${colors.green(
-      registry.registry,
-    )}) successful.`,
+    `Add registry [${yellow(name)}](${green(registry.registry)}) successful.`,
   )
 }
 
@@ -129,16 +126,14 @@ export function removeRegistry(name: string) {
   const exist = conf.registries[name]
 
   if (!exist) {
-    console.log(`Not found registry for [${colors.yellow(name)}].\n`)
+    console.log(`Not found registry for [${yellow(name)}].\n`)
     printRegistry()
     return
   }
 
   delete conf.registries[name]
   console.log(
-    `Delete registry [${colors.yellow(name)}](${colors.green(
-      exist.registry,
-    )}) successful.`,
+    `Delete registry [${yellow(name)}](${green(exist.registry)}) successful.`,
   )
 }
 

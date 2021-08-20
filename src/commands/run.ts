@@ -1,30 +1,25 @@
 import { Command } from 'cliffy/command/mod.ts'
-import { join, isAbsolute } from 'path/mod.ts'
+import { join } from 'path/mod.ts'
 import { run } from '../utils.ts'
 import { exists } from 'fs/mod.ts'
+import { red, cyan } from 'fmt/colors.ts'
 
 export const runCommand = new Command()
   .description('Run custom command, support package.json.')
   .stopEarly()
   .arguments('<script:string> [...params]')
-  .option('-c, --config', 'Config file, default is x.conf.json')
-  .action(
-    async (
-      opt: { config: string },
-      scriptName: string,
-      params: string[] = [],
-    ) => {
-      const str = await getCmd(scriptName, opt.config)
+  .action(async (_, scriptName: string, params: string[] = []) => {
+    const cmdString = await getCmd(scriptName)
 
-      if (!str) {
-        return
-      }
+    if (!cmdString) {
+      console.log(red('Script ['), cyan(`${scriptName}`), red('] Not found.'))
+      return
+    }
 
-      const [cmd, ...args] = parseCmdStr(str)
+    const [cmd, ...args] = parseCmdStr(cmdString)
 
-      await run(await getCmdPath(cmd), ...args, ...params)
-    },
-  )
+    await run(await getCmdPath(cmd), ...args, ...params)
+  })
 
 async function getCmdPath(bin: string): Promise<string> {
   const nodeModuleBin = join(Deno.cwd(), 'node_modules', '.bin', bin)
@@ -36,14 +31,10 @@ async function getCmdPath(bin: string): Promise<string> {
   return bin
 }
 
-async function getConfigPath(config?: string) {
+async function getConfigPath() {
   const cwd = Deno.cwd()
 
-  const path = config
-    ? isAbsolute(config)
-      ? config
-      : join(cwd, config)
-    : join(cwd, 'x.conf.json')
+  const path = join(cwd, 'x.conf.json')
 
   if (await exists(path)) {
     return path
@@ -58,8 +49,8 @@ async function getConfigPath(config?: string) {
   return false
 }
 
-async function getCmd(cmd: string, conf?: string): Promise<string | false> {
-  const path = await getConfigPath(conf)
+async function getCmd(cmd: string): Promise<string | false> {
+  const path = await getConfigPath()
 
   if (!path) {
     return false

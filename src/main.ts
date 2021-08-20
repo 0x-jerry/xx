@@ -8,19 +8,17 @@ import { workflowCommand } from './commands/workflow.ts'
 import { confCommand } from './commands/conf.ts'
 import { nrmCommand } from './commands/nrm.ts'
 import { runCommand } from './commands/run.ts'
+import { debug } from './debug.ts'
 
 const x = new Command()
   .name('x')
   .version(version)
-  .option('-d, --debug', 'Enable debug mode.', {
-    global: true,
-    value(val) {
-      val = !!val
+  .globalOption('-d, --debug', 'Enable debug mode', (val) => {
+    val = !!val
 
-      config.debug = val
+    config.debug = val
 
-      return val
-    },
+    return val
   })
   .description('Some useful command for myself.')
   .default('help')
@@ -46,12 +44,28 @@ const x = new Command()
   .command('conf', confCommand)
   // nrm
   .command('nrm', nrmCommand)
-  // nrm
+  // run
   .command('run', runCommand)
 
 // parse
 try {
-  await x.parse()
-} catch {
-  // ignore
+  const params = isRunScript() ? ['run', ...Deno.args] : Deno.args
+
+  await x.parse(params)
+} catch (e) {
+  debug.error(e)
+}
+
+function isRunScript() {
+  if (Deno.args.length === 0) return false
+
+  const allCommands = x.getCommands().map((c) => c.getName())
+
+  const isCmd = (s: string) => allCommands.includes(s)
+
+  const [$1, $2] = Deno.args
+
+  if ($1 === '-d' && !isCmd($2)) return true
+
+  return !isCmd($1) && !/^\-/.test($1)
 }

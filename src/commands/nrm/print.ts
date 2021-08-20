@@ -1,4 +1,4 @@
-import * as colors from 'fmt/colors.ts'
+import { green } from 'fmt/colors.ts'
 
 export function printTable(table: string[][]) {
   table = uniformTable(table)
@@ -58,5 +58,5 @@ function printLine(row: string[]) {
 function highlight(str: string) {
   const url = /https?:\/\/[^\s]+/g
 
-  return str.replace(url, (s) => colors.green(s))
+  return str.replace(url, (s) => green(s))
 }

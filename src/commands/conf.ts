@@ -1,4 +1,4 @@
-import * as colors from 'fmt/colors.ts'
+import { green, yellow, cyan } from 'fmt/colors.ts'
 import { Command, HelpCommand } from 'cliffy/command/mod.ts'
 import { exists } from 'fs/mod.ts'
 import { getConfPath } from '../libs/conf.ts'
@@ -15,9 +15,9 @@ export const confCommand = new Command()
 
     if (await exists(p)) {
       await Deno.remove(p)
-      console.log(colors.green(`Remove [${p}] successful!`))
+      console.log(green(`Remove [${p}] successful!`))
     } else {
-      console.log(colors.yellow(`Not found config file: ${p}.`))
+      console.log(yellow(`Not found config file: ${p}.`))
     }
   })
   .command('ls', 'List all config files.')
@@ -27,7 +27,7 @@ export const confCommand = new Command()
     const files = Deno.readDir(p)
 
     for await (const file of files) {
-      console.log('-', colors.cyan(join(p, file.name)))
+      console.log('-', cyan(join(p, file.name)))
     }
   })
 

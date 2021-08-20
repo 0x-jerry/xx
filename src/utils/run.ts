@@ -1,4 +1,4 @@
-import * as colors from 'fmt/colors.ts'
+import { rgb24 } from 'fmt/colors.ts'
 
 function getFormatCmd(cmd: string[]) {
   return [
@@ -9,7 +9,7 @@ function getFormatCmd(cmd: string[]) {
 }
 
 export async function run(...cmd: string[]) {
-  console.log(colors.rgb24(getFormatCmd(cmd), 0x999999))
+  console.log(rgb24(getFormatCmd(cmd), 0x999999))
 
   const program = Deno.run({
     cmd: cmd,
