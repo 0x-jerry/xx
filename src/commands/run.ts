@@ -5,11 +5,16 @@ import { exists } from 'fs/mod.ts'
 import { red, cyan } from 'fmt/colors.ts'
 
 export const runCommand = new Command()
+  .name('xr')
   .description('Run custom command, support package.json.')
+  .complete('script', async () => {
+    const [_, allScripts] = await getScriptContent()
+    return allScripts
+  })
   .stopEarly()
-  .arguments('<script:string> [...params]')
+  .arguments('<script:string:script> [...params]')
   .action(async (_, scriptName: string, params: string[] = []) => {
-    const [cmdString, allScripts] = await getScriptName(scriptName)
+    const [cmdString, allScripts] = await getScriptContent(scriptName)
 
     if (cmdString) {
       await executeScript(cmdString, params)
@@ -58,7 +63,9 @@ async function getConfigPath() {
   return false
 }
 
-async function getScriptName(cmd: string): Promise<[string | false, string[]]> {
+export async function getScriptContent(
+  cmd = '',
+): Promise<[string | false, string[]]> {
   const path = await getConfigPath()
 
   if (!path) {
