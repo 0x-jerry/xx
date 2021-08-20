@@ -2,6 +2,7 @@ import { Command, HelpCommand, CompletionsCommand } from 'cliffy/command/mod.ts'
 import { UpgradeCommand } from 'cliffy/command/upgrade/mod.ts'
 import { GithubProvider } from 'cliffy/command/upgrade/provider/github.ts'
 import { version } from '../version.ts'
+import { config } from './config.ts'
 
 import { workflowCommand } from './commands/workflow.ts'
 import { confCommand } from './commands/conf.ts'
@@ -11,6 +12,16 @@ import { runCommand } from './commands/run.ts'
 const x = new Command()
   .name('x')
   .version(version)
+  .option('-d, --debug', 'Enable debug mode.', {
+    global: true,
+    value(val) {
+      val = !!val
+
+      config.debug = val
+
+      return val
+    },
+  })
   .description('Some useful command for myself.')
   .default('help')
   // help

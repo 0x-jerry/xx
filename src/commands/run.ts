@@ -1,8 +1,7 @@
 import { Command } from 'cliffy/command/mod.ts'
 import { join, isAbsolute } from 'path/mod.ts'
-import { run } from '../utils/run.ts'
+import { run } from '../utils.ts'
 import { exists } from 'fs/mod.ts'
-import { which } from '../utils/which.ts'
 
 export const runCommand = new Command()
   .description('Run custom command, support package.json.')
@@ -23,19 +22,15 @@ export const runCommand = new Command()
 
       const [cmd, ...args] = parseCmdStr(str)
 
-      await run(await tryConvertCmd(cmd), ...args, ...params)
+      await run(await getCmdPath(cmd), ...args, ...params)
     },
   )
 
-async function tryConvertCmd(bin: string): Promise<string> {
-  const isExist = await which(bin)
+async function getCmdPath(bin: string): Promise<string> {
+  const nodeModuleBin = join(Deno.cwd(), 'node_modules', '.bin', bin)
 
-  if (!isExist) {
-    const nodeModuleBin = join(Deno.cwd(), 'node_modules', '.bin', bin)
-
-    if (await exists(nodeModuleBin)) {
-      return nodeModuleBin
-    }
+  if (await exists(nodeModuleBin)) {
+    return nodeModuleBin
   }
 
   return bin
