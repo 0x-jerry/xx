@@ -13,7 +13,7 @@ import { debug } from './debug.ts'
 const x = new Command()
   .name('x')
   .version(version)
-  .globalOption('-d, --debug', 'Enable debug mode', (val) => {
+  .globalOption('-d, --debug', 'Enable debug mode.', (val) => {
     val = !!val
 
     config.debug = val
