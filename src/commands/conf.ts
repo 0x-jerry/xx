@@ -2,6 +2,7 @@ import * as colors from 'fmt/colors.ts'
 import { Command, HelpCommand } from 'cliffy/command/mod.ts'
 import { exists } from 'fs/mod.ts'
 import { getConfPath } from '../libs/conf.ts'
+import { join } from 'path/mod.ts'
 
 export const confCommand = new Command()
   .description('Config manager.')
@@ -26,7 +27,7 @@ export const confCommand = new Command()
     const files = Deno.readDir(p)
 
     for await (const file of files) {
-      console.log('-', file.name)
+      console.log('-', colors.cyan(join(p, file.name)))
     }
   })
 
