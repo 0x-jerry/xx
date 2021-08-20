@@ -2,9 +2,10 @@ import { Command } from 'cliffy/command/mod.ts'
 import { join, isAbsolute } from 'path/mod.ts'
 import { run } from '../utils/run.ts'
 import { exists } from 'fs/mod.ts'
+import { which } from '../utils/which.ts'
 
 export const runCommand = new Command()
-  .description('Run custom command')
+  .description('Run custom command, support package.json.')
   .stopEarly()
   .arguments('<script:string> [...params]')
   .option('-c, --config', 'Config file, default is x.conf.json')
@@ -20,9 +21,25 @@ export const runCommand = new Command()
         return
       }
 
-      await run(...parseCmdStr(str), ...params)
+      const [cmd, ...args] = parseCmdStr(str)
+
+      await run(await tryConvertCmd(cmd), ...args, ...params)
     },
   )
+
+async function tryConvertCmd(bin: string): Promise<string> {
+  const isExist = await which(bin)
+
+  if (!isExist) {
+    const nodeModuleBin = join(Deno.cwd(), 'node_modules', '.bin', bin)
+
+    if (await exists(nodeModuleBin)) {
+      return nodeModuleBin
+    }
+  }
+
+  return bin
+}
 
 async function getConfigPath(config?: string) {
   const cwd = Deno.cwd()
@@ -59,6 +76,7 @@ async function getCmd(cmd: string, conf?: string): Promise<string | false> {
 
   return json.scripts?.[cmd]
 }
+
 export function parseCmdStr(cmdStr: string): string[] {
   const char = '\\w-+/\\.'
 
