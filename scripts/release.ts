@@ -2,9 +2,12 @@ import { run } from '../src/utils.ts'
 import { Select } from 'cliffy/prompt/mod.ts'
 import * as semver from 'semver/mod.ts'
 import { join } from 'path/mod.ts'
-import { config } from './utils.ts'
 
-const inc = (type: semver.ReleaseType) => semver.inc(config.version, type)
+const pkgPath = join(Deno.cwd(), 'package.json')
+
+const pkgConf = await getPkgConfig<IConfig>()
+
+const inc = (type: semver.ReleaseType) => semver.inc(pkgConf.version, type)
 
 const types: semver.ReleaseType[] = ['patch', 'minor', 'major']
 
@@ -46,12 +49,20 @@ await run('git', 'tag', `v${releaseVersion}`)
 await run('git', 'push')
 await run('git', 'push', '--tags')
 
+// --------
+
 async function modifyPackageVersion(version: string) {
-  const pkgPath = join(Deno.cwd(), 'package.json')
+  pkgConf.version = version
 
-  const content = await Deno.readTextFile(pkgPath)
-  const json = JSON.parse(content)
+  await Deno.writeTextFile(pkgPath, JSON.stringify(pkgConf, null, 2))
+}
 
-  json.version = version
-  await Deno.writeTextFile(pkgPath, JSON.stringify(json, null, 2))
+async function getPkgConfig<T>(): Promise<T> {
+  const fileContent = await Deno.readTextFile(pkgPath)
+
+  return JSON.parse(fileContent)
+}
+
+interface IConfig {
+  version: string
 }
