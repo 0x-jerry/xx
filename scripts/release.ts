@@ -1,6 +1,7 @@
 import { run } from '../src/utils.ts'
 import { Select } from 'cliffy/prompt/mod.ts'
 import * as semver from 'semver/mod.ts'
+import { join } from 'path/mod.ts'
 import { config } from './utils.ts'
 
 const inc = (type: semver.ReleaseType) => semver.inc(config.version, type)
@@ -12,14 +13,18 @@ const options = types.map((type) => ({
   value: type,
 }))
 
-await run('yarn', 'test')
+await run('x', 'run', 'test')
 
-const releaseType = await Select.prompt({
+const releaseType = (await Select.prompt({
   message: 'Please select release type',
   options: options,
-})
+})) as semver.ReleaseType
 
-const releaseVersion = inc(releaseType as semver.ReleaseType)
+const releaseVersion = inc(releaseType)
+
+if (!releaseVersion) {
+  Deno.exit()
+}
 
 await Deno.writeTextFile(
   'version.ts',
@@ -32,13 +37,21 @@ export const version = '${releaseVersion}'
 
 await run('git', 'add', 'version.ts')
 
-await run(
-  'yarn',
-  'version',
-  `--${releaseType}`,
-  '--message',
-  `chore: release ${releaseVersion}`,
-)
+await modifyPackageVersion(releaseVersion)
+await run('git', 'add', 'package.json')
+
+await run('git', 'commit', '-m', `chore: release ${releaseVersion}`)
+await run('git', 'tag', `v${releaseVersion}`)
 
 await run('git', 'push')
 await run('git', 'push', '--tags')
+
+async function modifyPackageVersion(version: string) {
+  const pkgPath = join(Deno.cwd(), 'package.json')
+
+  const content = await Deno.readTextFile(pkgPath)
+  const json = JSON.parse(content)
+
+  json.version = version
+  await Deno.writeTextFile(pkgPath, JSON.stringify(json, null, 2))
+}
