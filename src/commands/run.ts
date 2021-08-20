@@ -17,9 +17,9 @@ export const runCommand = new Command()
     }
 
     console.log(
-      red('Script ['),
+      red('['),
       cyan(`${scriptName}`),
-      red('] Not in the list: '),
+      red('] not exists in the list: '),
       allScripts.map((name) => cyan(name)).join(', '),
     )
   })
