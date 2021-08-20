@@ -6,7 +6,7 @@ import { red, cyan } from 'fmt/colors.ts'
 
 export const runCommand = new Command()
   .name('xr')
-  .description('Run custom command, support package.json.')
+  .description('Run custom script in package.json, like npm run.')
   .complete('script', async () => {
     const [_, allScripts] = await getScriptContent()
     return allScripts
@@ -29,6 +29,10 @@ export const runCommand = new Command()
     )
   })
 
+interface IScriptObject {
+  [key: string]: string
+}
+
 async function executeScript(name: string, params: string[]) {
   const [cmd, ...args] = parseCmdStr(name)
 
@@ -45,38 +49,29 @@ async function getCmdPath(bin: string): Promise<string> {
   return bin
 }
 
-async function getConfigPath() {
+async function getPackageScripts(): Promise<IScriptObject> {
   const cwd = Deno.cwd()
-
-  const path = join(cwd, 'x.conf.json')
-
-  if (await exists(path)) {
-    return path
-  }
-
   const pkgPath = join(cwd, 'package.json')
 
-  if (await exists(pkgPath)) {
-    return pkgPath
+  if (!(await exists(pkgPath))) {
+    return {}
   }
 
-  return false
+  const text = await Deno.readTextFile(pkgPath)
+
+  const json = JSON.parse(text)
+
+  return json.scripts || {}
 }
 
 export async function getScriptContent(
   cmd = '',
 ): Promise<[string | false, string[]]> {
-  const path = await getConfigPath()
+  const allScripts: IScriptObject[] = await Promise.all([getPackageScripts()])
 
-  if (!path) {
-    return [false, []]
-  }
+  const scripts = allScripts.reduce((pre, cur) => Object.assign(pre, cur), {})
 
-  const text = await Deno.readTextFile(path)
-
-  const json = JSON.parse(text)
-
-  return [json.scripts?.[cmd], Object.keys(json.scripts || {})]
+  return [scripts[cmd], Object.keys(scripts)]
 }
 
 export function parseCmdStr(cmdStr: string): string[] {
