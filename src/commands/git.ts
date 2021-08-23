@@ -3,7 +3,7 @@ import { runPiped } from '../utils.ts'
 import { green } from 'fmt/colors.ts'
 
 export const gitCommand = new Command()
-  .description('Config manager.')
+  .description('Some useful command for git repository.')
   .default('help')
   .command('help', new HelpCommand())
   .command('url [remote]', 'Show the remote url for current git repository.')
