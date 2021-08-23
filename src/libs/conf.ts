@@ -1,15 +1,13 @@
 import { ensureDirSync, existsSync } from 'fs/mod.ts'
 import { join, dirname } from 'path/mod.ts'
 import { homedir } from '../utils.ts'
-import { createConfig } from 'x-lib/mod.ts'
+import { createConfig } from 'x-lib'
 
 type SaveFn = (name: string, data: string) => void
 type ReadFn = (name: string) => string | null
 
 export const getConfPath = (name: string) => {
-  const home = homedir()
-
-  return join(home, '.x.conf', name)
+  return join(homedir, '.x.conf', name)
 }
 
 const defaultSaveFn: SaveFn = (name: string, data: string) => {

@@ -6,9 +6,9 @@
   "author": "0x-jerry <x.jerry.wang@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "deno": "deno run --import-map ./import_maps.json -A --unstable",
-    "dev": "deno run --import-map ./import_maps.json -A --no-check --unstable x.ts",
-    "release": "x flow release",
-    "test": "deno test --import-map ./import_maps.json --allow-env --allow-read --allow-run --unstable"
+    "deno": "deno run --import-map ./import_map.json -A --unstable",
+    "dev": "deno run --import-map ./import_map.json -A --no-check --unstable x.ts",
+    "test": "deno test --import-map ./import_map.json --allow-env --allow-read --allow-run --unstable",
+    "release": "x flow release"
   }
 }

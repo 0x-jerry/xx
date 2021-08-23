@@ -1,6 +1,7 @@
 {
   "imports": {
-    "x-lib/": "https://raw.githubusercontent.com/0x-jerry/x-lib/v0.2.7/",
+    "x-lib": "https://raw.githubusercontent.com/0x-jerry/x-lib/v0.2.7/mod.ts",
+    "d-lib": "https://raw.githubusercontent.com/0x-jerry/d-lib/v0.1.0/mod.ts",
     "cliffy/": "https://deno.land/x/cliffy@v0.19.5/",
     "semver/": "https://deno.land/x/semver@v1.4.0/",
     "path/": "https://deno.land/std@0.101.0/path/",
