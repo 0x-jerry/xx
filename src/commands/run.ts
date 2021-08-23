@@ -81,7 +81,7 @@ export function parseCmdStr(cmdStr: string): string[] {
   const quote = `'[${char}\\s]+'|"[${char}\\s]+"`
   const eq = `${name}=${quote}`
 
-  const regexp = new RegExp(`(${eq}|${quote}|${name}|\s+)`, 'g')
+  const regexp = new RegExp(`(${eq}|${quote}|${name})`, 'g')
 
   const args = cmdStr
     .split(regexp)
