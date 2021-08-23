@@ -9,7 +9,19 @@ export const confCommand = new Command()
   .default('help')
   .command('help', new HelpCommand())
   //
-  .command('rm <name:string>', 'Remove specific config.')
+  .command('rm <name:string:confName>', 'Remove specific config.')
+  .complete('confName', async () => {
+    const p = getConfPath('.')
+
+    const files = Deno.readDir(p)
+    const all = []
+
+    for await (const file of files) {
+      all.push(file.name)
+    }
+
+    return all
+  })
   .action(async (_, name) => {
     const p = getConfPath(name)
 
