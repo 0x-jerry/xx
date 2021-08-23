@@ -8,6 +8,7 @@ import { workflowCommand } from './commands/workflow.ts'
 import { confCommand } from './commands/conf.ts'
 import { nrmCommand } from './commands/nrm.ts'
 import { runCommand } from './commands/run.ts'
+import { gitCommand } from './commands/git.ts'
 import { debug } from './debug.ts'
 
 const x = new Command()
@@ -46,6 +47,8 @@ const x = new Command()
   .command('nrm', nrmCommand)
   // run
   .command('run', runCommand)
+  // git
+  .command('git', gitCommand)
 
 // parse
 try {
