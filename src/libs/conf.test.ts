@@ -11,7 +11,7 @@ Deno.test('createConfig', async () => {
     return Promise.resolve()
   }
 
-  const [conf, ensureSaved] = await createConf('_', { test: 0 }, fn)
+  const [conf, ensureSaved] = createConf('_', { test: 0 }, fn)
   conf.test++
   conf.test++
   await ensureSaved()

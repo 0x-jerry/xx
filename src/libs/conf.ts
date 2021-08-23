@@ -1,10 +1,10 @@
-import { reactive, effect, UnwrapNestedRefs } from 'reactivity'
-import { ensureDir, exists } from 'fs/mod.ts'
+import { ensureDirSync, existsSync } from 'fs/mod.ts'
 import { join, dirname } from 'path/mod.ts'
-import { isObject, homedir } from '../utils.ts'
+import { homedir } from '../utils.ts'
+import { createConfig } from 'x-lib/mod.ts'
 
-type SaveFn = (name: string, data: string) => Promise<void>
-type ReadFn = (name: string) => Promise<string | null>
+type SaveFn = (name: string, data: string) => void
+type ReadFn = (name: string) => string | null
 
 export const getConfPath = (name: string) => {
   const home = homedir()
@@ -12,21 +12,21 @@ export const getConfPath = (name: string) => {
   return join(home, '.x.conf', name)
 }
 
-const defaultSaveFn: SaveFn = async (name: string, data: string) => {
+const defaultSaveFn: SaveFn = (name: string, data: string) => {
   const confPath = getConfPath(name)
-  await ensureDir(dirname(confPath))
+  ensureDirSync(dirname(confPath))
 
-  await Deno.writeTextFile(confPath, data)
+  Deno.writeTextFileSync(confPath, data)
 }
 
-const defaultReadFn: ReadFn = async (name: string) => {
+const defaultReadFn: ReadFn = (name: string) => {
   const confPath = getConfPath(name)
 
-  if (!(await exists(confPath))) {
+  if (!existsSync(confPath)) {
     return null
   }
 
-  const data = await Deno.readTextFile(confPath)
+  const data = Deno.readTextFileSync(confPath)
 
   return data
 }
@@ -48,59 +48,20 @@ const defaultReadFn: ReadFn = async (name: string) => {
  * @param option
  * @returns
  */
-export async function createConf<T extends Record<string, any>>(
+export function createConf<T extends Record<string, any>>(
   name: string,
   defaultValue: T,
   save?: SaveFn,
   read?: ReadFn,
-): Promise<[UnwrapNestedRefs<T>, () => Promise<void>]> {
+) {
   const readConf = read || defaultReadFn
-  const savedData = await readConf(name)
-  const defaultConf = savedData ? JSON.parse(savedData) : defaultValue
+  const savedData = readConf(name)
+  const defaultConf: T = savedData ? JSON.parse(savedData) : defaultValue
 
-  const data = reactive(defaultConf)
+  const saveFn: SaveFn = save || defaultSaveFn
 
-  let saving = Promise.resolve()
-
-  let handler: number | undefined
-
-  const saveData = () => {
-    return new Promise<void>((resolve) => {
-      clearTimeout(handler)
-
-      handler = setTimeout(() => {
-        const saveFn: SaveFn = save || defaultSaveFn
-
-        saveFn(name, JSON.stringify(data, null, 2))
-
-        resolve()
-      })
-    })
-  }
-
-  effect(() => {
-    traverse(data)
-    saving = saveData()
-  })
-
-  return [data, () => saving]
-}
-
-/**
- * Touch every property recursively
- * @param o object
- */
-function traverse(o: unknown) {
-  if (isObject(o)) {
-    for (const key in o) {
-      if (Object.prototype.hasOwnProperty.call(o, key)) {
-        const value = o[key]
-        traverse(value)
-      }
-    }
-  } else if (Array.isArray(o)) {
-    for (const item of o) {
-      traverse(item)
-    }
-  }
+  return createConfig(
+    () => defaultConf,
+    (data) => saveFn(name, JSON.stringify(data, null, 2)),
+  )
 }
