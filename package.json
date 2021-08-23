@@ -8,7 +8,7 @@
   "scripts": {
     "deno": "deno run --import-map ./import_maps.json -A --unstable",
     "dev": "deno run --import-map ./import_maps.json -A --no-check --unstable x.ts",
-    "release": "deno run --import-map ./import_maps.json -A --unstable scripts/release.ts",
+    "release": "x flow release",
     "test": "deno test --import-map ./import_maps.json --allow-env --allow-read --allow-run --unstable"
   }
 }
