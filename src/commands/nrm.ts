@@ -4,9 +4,11 @@ import {
   setRegistry,
   printRegistry,
   removeRegistry,
+  nrmConf,
 } from './nrm/index.ts'
 
 const managerType = new EnumType(['npm', 'yarn'])
+const registryNames = Object.keys(nrmConf.registries)
 
 export const nrmCommand = new Command()
   .description('Node registry manager')
@@ -14,16 +16,21 @@ export const nrmCommand = new Command()
   .command('help', new HelpCommand())
 
 nrmCommand
-  .command('use <name:string>', 'Use specific registry server by name.')
+  .command(
+    'use <name:string:registry>',
+    'Use specific registry server by name.',
+  )
+  .complete('registry', () => registryNames)
   .type('manager', managerType)
   .option('-m, --manager [manager:manager]', 'Registry manager type')
   .action((opt, name) => useRegistry(name, opt.manager))
 
 nrmCommand
   .command(
-    'set <name:string> <registry:string> [home:string]',
+    'set <name:string:registry> <registry:string> [home:string]',
     'Set or update registry config.',
   )
+  .complete('registry', () => registryNames)
   .option('-f, --force', 'Force update registry.', { default: false })
   .action((opt, name, registry, home = '') => {
     setRegistry(name, { registry, home }, opt.force)
@@ -34,7 +41,8 @@ nrmCommand.command('ls', 'List all registry.').action(() => {
 })
 
 nrmCommand
-  .command('rm <name:string>', 'Remove specific registry by name.')
+  .command('rm <name:string:registry>', 'Remove specific registry by name.')
+  .complete('registry', () => registryNames)
   .action((_, name) => {
     removeRegistry(name)
   })

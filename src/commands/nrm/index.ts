@@ -8,6 +8,8 @@ import { conf, NRMConfig, RegistryConfig } from './conf.ts'
 
 export type NodeRegistryType = 'npm' | 'yarn'
 
+export const nrmConf = conf
+
 const managers: Record<string, RegistryManager> = {
   npm,
   yarn,
