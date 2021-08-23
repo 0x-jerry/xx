@@ -29,7 +29,7 @@ const x = new Command()
     'upgrade',
     new UpgradeCommand({
       main: 'x.ts',
-      importMap: 'import_maps.json',
+      importMap: 'import_map.json',
       args: ['-A', '--no-check', '--unstable'],
       provider: new GithubProvider({
         repository: '0x-jerry/x',
