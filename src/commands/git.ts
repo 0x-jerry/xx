@@ -6,7 +6,18 @@ export const gitCommand = new Command()
   .description('Some useful command for git repository.')
   .default('help')
   .command('help', new HelpCommand())
-  .command('url [remote]', 'Show the remote url for current git repository.')
+  .command(
+    'url [remote:string:remote]',
+    'Show the remote url for current git repository.',
+  )
+  .complete('remote', async () => {
+    const txt = await runPiped('git', 'remote', 'show')
+
+    return txt
+      .split(/\s+/g)
+      .map((n) => n.trim())
+      .filter((n) => !!n)
+  })
   .option('--http', 'Use http instead of https')
   .action(async (opt, remote) => {
     remote = remote ?? 'origin'
