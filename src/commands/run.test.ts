@@ -45,3 +45,13 @@ Deno.test('dot', () => {
     'test ./xx.js',
   ])
 })
+
+Deno.test('&&', () => {
+  assertEquals(parseCmdStr('echo hello && echo world'), [
+    'echo',
+    'hello',
+    '&&',
+    'echo',
+    'world',
+  ])
+})
