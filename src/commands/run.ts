@@ -1,8 +1,8 @@
 import { Command } from 'cliffy/command/mod.ts'
 import { join } from 'path/mod.ts'
-import { run } from '../utils.ts'
+import { run, getDirFiles } from '../utils.ts'
 import { exists } from 'fs/mod.ts'
-import { red, cyan } from 'fmt/colors.ts'
+import { red, cyan, rgb24 } from 'fmt/colors.ts'
 
 export const runCommand = new Command()
   .name('xr')
@@ -34,19 +34,25 @@ interface IScriptObject {
 }
 
 async function executeScript(name: string, params: string[]) {
-  const [cmd, ...args] = parseCmdStr(name)
+  const cmd = parseCmdStr(name)
 
-  await run(await getCmdPath(cmd), ...args, ...params)
+  console.log(rgb24(cmd.join(' '), 0x999999))
+
+  await run({ log: false }, ...(await covertCmd(cmd)), ...params)
 }
 
-async function getCmdPath(bin: string): Promise<string> {
-  const nodeModuleBin = join(Deno.cwd(), 'node_modules', '.bin', bin)
+async function covertCmd(cmd: string[]): Promise<string[]> {
+  const nodeModuleBinPath = join(Deno.cwd(), 'node_modules', '.bin')
 
-  if (await exists(nodeModuleBin)) {
-    return nodeModuleBin
+  if (!(await exists(nodeModuleBinPath))) {
+    return cmd
   }
 
-  return bin
+  const exes = await getDirFiles(nodeModuleBinPath)
+  const files = exes.map((e) => e.name)
+  return cmd.map((bin) =>
+    files.includes(bin) ? join(nodeModuleBinPath, bin) : bin,
+  )
 }
 
 async function getPackageScripts(): Promise<IScriptObject> {
