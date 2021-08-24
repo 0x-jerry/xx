@@ -34,11 +34,17 @@ interface IScriptObject {
 }
 
 async function executeScript(name: string, params: string[]) {
-  const cmd = parseCmdStr(name)
+  const commands = parseCmdStr(name)
 
-  console.log(rgb24(cmd.join(' '), 0x999999))
+  for (let idx = 0; idx < commands.length; idx++) {
+    const cmd = commands[idx]
 
-  await run({ log: false }, ...(await covertCmd(cmd)), ...params)
+    const args = await covertCmd(cmd)
+    const lastParams = idx === commands.length - 1 ? params : []
+
+    console.log(rgb24(['$', ...cmd].join(' '), 0x999999))
+    await run({ log: false }, ...args, ...lastParams)
+  }
 }
 
 async function covertCmd(cmd: string[]): Promise<string[]> {
@@ -80,7 +86,7 @@ export async function getScriptContent(
   return [scripts[cmd], Object.keys(scripts)]
 }
 
-export function parseCmdStr(cmdStr: string): string[] {
+export function parseCmdStr(cmdStr: string): string[][] {
   const char = '\\w-+/\\.'
 
   const name = `[-${char}\\.]+`
@@ -89,21 +95,23 @@ export function parseCmdStr(cmdStr: string): string[] {
 
   const regexp = new RegExp(`(${eq}|${quote}|${name}|\\s+)`, 'g')
 
-  const args = cmdStr
-    .split(regexp)
-    .reduce((params, cur) => {
-      if (cur.includes('=')) {
-        params.push(...cur.split('='))
-      } else {
-        const param = /^['"]/.test(cur) ? cur.slice(1, -1) : cur
-        params.push(param)
-      }
+  const commands = cmdStr.split(/\s&&\s/g).map((cmd) =>
+    cmd
+      .split(regexp)
+      .reduce((params, cur) => {
+        if (cur.includes('=')) {
+          params.push(...cur.split('='))
+        } else {
+          const param = /^['"]/.test(cur) ? cur.slice(1, -1) : cur
+          params.push(param)
+        }
 
-      return params
-    }, [] as string[])
-    .filter((n) => n.trim())
+        return params
+      }, [] as string[])
+      .filter((n) => n.trim()),
+  )
 
-  return args
+  return commands
 }
 
 if (import.meta.main) {
