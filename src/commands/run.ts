@@ -33,16 +33,16 @@ interface IScriptObject {
   [key: string]: string
 }
 
-async function executeScript(name: string, params: string[]) {
-  const commands = parseCmdStr(name)
+async function executeScript(cmdString: string, params: string[]) {
+  const commands = parseCmdStr(cmdString)
 
+  console.log(rgb24(['$', cmdString].join(' '), 0x999999))
   for (let idx = 0; idx < commands.length; idx++) {
     const cmd = commands[idx]
 
     const args = await covertCmd(cmd)
     const lastParams = idx === commands.length - 1 ? params : []
 
-    console.log(rgb24(['$', ...cmd].join(' '), 0x999999))
     await run({ log: false }, ...args, ...lastParams)
   }
 }
