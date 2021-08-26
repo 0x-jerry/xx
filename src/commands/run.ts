@@ -89,29 +89,34 @@ export async function getScriptContent(
 export function parseCmdStr(cmdStr: string): string[][] {
   const char = '\\w-+/\\.'
 
-  const name = `[-${char}\\.:]+`
-  const quote = `'[${char}\\s]+'|"[${char}\\s]+"`
+  const name = `[-${char}\\.]+`
+  const quote = `('.+'|".+")`
   const eq = `${name}=${quote}`
 
-  const regexp = new RegExp(`(${eq}|${quote}|${name}|\\s+)`, 'g')
+  const regexp = new RegExp(`(${eq}|${quote}|\\s+|[^\\s]+)`, 'g')
 
-  const commands = cmdStr.split(/\s&&\s/g).map((cmd) =>
-    cmd
-      .split(regexp)
+  const commands = cmdStr.split(/\s&&\s/g).map((cmd) => {
+    const matches: string[] = cmd.match(regexp) || []
+
+    return matches
+      .map((n) => n.trim())
+      .filter((n) => n)
       .reduce((params, cur) => {
         if (cur.includes('=')) {
-          params.push(...cur.split('='))
+          params.push(...cur.split('=').map((n) => transformQuote(n)))
         } else {
-          const param = /^['"]/.test(cur) ? cur.slice(1, -1) : cur
-          params.push(param)
+          params.push(transformQuote(cur))
         }
 
         return params
       }, [] as string[])
-      .filter((n) => n.trim()),
-  )
+  })
 
   return commands
+}
+
+function transformQuote(quote: string) {
+  return /^['"]/.test(quote) ? quote.slice(1, -1) : quote
 }
 
 if (import.meta.main) {

@@ -46,3 +46,9 @@ Deno.test('yarn build:resolver && yarn build:dts', () => {
     ['yarn', 'build:dts'],
   ])
 })
+
+Deno.test('rm -rf src/*.vue.d.ts', () => {
+  assertEquals(parseCmdStr('rm -rf src/*.vue.d.ts'), [
+    ['rm', '-rf', 'src/*.vue.d.ts'],
+  ])
+})
