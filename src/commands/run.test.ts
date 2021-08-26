@@ -39,3 +39,10 @@ Deno.test('&&', () => {
     ['echo', 'world'],
   ])
 })
+
+Deno.test('yarn build:resolver && yarn build:dts', () => {
+  assertEquals(parseCmdStr('yarn build:resolver && yarn build:dts'), [
+    ['yarn', 'build:resolver'],
+    ['yarn', 'build:dts'],
+  ])
+})

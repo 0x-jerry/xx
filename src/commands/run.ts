@@ -89,7 +89,7 @@ export async function getScriptContent(
 export function parseCmdStr(cmdStr: string): string[][] {
   const char = '\\w-+/\\.'
 
-  const name = `[-${char}\\.]+`
+  const name = `[-${char}\\.:]+`
   const quote = `'[${char}\\s]+'|"[${char}\\s]+"`
   const eq = `${name}=${quote}`
 
