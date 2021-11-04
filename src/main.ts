@@ -4,7 +4,7 @@ import { GithubProvider } from 'cliffy/command/upgrade/provider/github.ts'
 import { version } from '../version.ts'
 import { config } from './config.ts'
 
-import { workflowCommand } from './commands/workflow.ts'
+import { releaseCommand } from './commands/release.ts'
 import { confCommand } from './commands/conf.ts'
 import { nrmCommand } from './commands/nrm.ts'
 import { runCommand } from './commands/run.ts'
@@ -40,8 +40,8 @@ const x = new Command()
   )
   // completion
   .command('completions', new CompletionsCommand())
-  // flow
-  .command('flow', workflowCommand)
+  // release
+  .command('release', releaseCommand)
   // conf
   .command('conf', confCommand)
   // nrm
