@@ -8,10 +8,10 @@ const pkgPath = join(Deno.cwd(), 'package.json')
 
 export const releaseCommand = new Command()
   .description('Create a new release for deno project.')
+  .option('-d, --deno', 'A deno project.')
   .default('help')
   .command('help', new HelpCommand())
-  .option('-d, --deno', 'A deno project.')
-  .action(async ({ deno: isDeno } = {}) => {
+  .action(async ({ deno: isDeno = false } = {}) => {
     const pkgConf = await getPkgConfig<IConfig>()
 
     const releaseVersion = await getNextVersion(pkgConf)
