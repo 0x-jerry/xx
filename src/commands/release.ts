@@ -11,7 +11,7 @@ export const releaseCommand = new Command()
   .default('help')
   .command('help', new HelpCommand())
   .option('-d, --deno', 'A deno project.')
-  .action(async ({ deno: isDeno = false } = {}) => {
+  .action(async ({ deno: isDeno } = {}) => {
     const pkgConf = await getPkgConfig<IConfig>()
 
     const releaseVersion = await getNextVersion(pkgConf)
