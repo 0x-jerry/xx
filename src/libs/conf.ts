@@ -1,4 +1,4 @@
-import { ensureDirSync, existsSync } from 'fs/mod.ts'
+import { ensureDirSync } from 'fs/mod.ts'
 import { join, dirname } from 'path/mod.ts'
 import { homedir } from '../utils.ts'
 import { createConfig } from 'x-lib'
@@ -20,13 +20,13 @@ const defaultSaveFn: SaveFn = (name: string, data: string) => {
 const defaultReadFn: ReadFn = (name: string) => {
   const confPath = getConfPath(name)
 
-  if (!existsSync(confPath)) {
+  try {
+    const data = Deno.readTextFileSync(confPath)
+
+    return data
+  } catch (_error) {
     return null
   }
-
-  const data = Deno.readTextFileSync(confPath)
-
-  return data
 }
 
 /**

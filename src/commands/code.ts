@@ -1,7 +1,6 @@
 import { Command } from 'cliffy/command/mod.ts'
 import { join } from 'path/mod.ts'
 import { run, homedir } from '../utils.ts'
-import { exists } from 'fs/mod.ts'
 import { Confirm } from 'cliffy/prompt/confirm.ts'
 
 const codeStoragePath = join(
@@ -34,27 +33,27 @@ export const codeCommand = new Command()
   })
 
 async function getVscodeRecentOpened() {
-  if (!(await exists(codeStoragePath))) {
+  try {
+    const txt = await Deno.readTextFile(codeStoragePath)
+    const codeConf = JSON.parse(txt)
+    const entries = codeConf.openedPathsList.entries
+
+    const folders: string[] = []
+    const files: string[] = []
+
+    entries.forEach((e: any) => {
+      const u = new URL(e.folderUri || e.fileUri)
+      const p = decodeURIComponent(u.pathname)
+
+      if (e.folderUri) {
+        folders.push(p)
+      } else {
+        files.push(p)
+      }
+    })
+
+    return [...folders, ...files]
+  } catch (_error) {
     return []
   }
-
-  const txt = await Deno.readTextFile(codeStoragePath)
-  const codeConf = JSON.parse(txt)
-  const entries = codeConf.openedPathsList.entries
-
-  const folders: string[] = []
-  const files: string[] = []
-
-  entries.forEach((e: any) => {
-    const u = new URL(e.folderUri || e.fileUri)
-    const p = decodeURIComponent(u.pathname)
-
-    if (e.folderUri) {
-      folders.push(p)
-    } else {
-      files.push(p)
-    }
-  })
-
-  return [...folders, ...files]
 }

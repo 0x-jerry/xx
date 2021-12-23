@@ -1,7 +1,6 @@
 import { Command } from 'cliffy/command/mod.ts'
 import { join } from 'path/mod.ts'
 import { run, getDirFiles } from '../utils.ts'
-import { exists } from 'fs/mod.ts'
 import { red, cyan, rgb24 } from 'fmt/colors.ts'
 
 export const runCommand = new Command()
@@ -48,32 +47,30 @@ async function executeScript(cmdString: string, params: string[]) {
 }
 
 async function covertCmd(cmd: string[]): Promise<string[]> {
-  const nodeModuleBinPath = join(Deno.cwd(), 'node_modules', '.bin')
-
-  if (!(await exists(nodeModuleBinPath))) {
+  try {
+    const nodeModuleBinPath = join(Deno.cwd(), 'node_modules', '.bin')
+    const exes = await getDirFiles(nodeModuleBinPath)
+    const files = exes.map((e) => e.name)
+    return cmd.map((bin) =>
+      files.includes(bin) ? join(nodeModuleBinPath, bin) : bin,
+    )
+  } catch (_error) {
     return cmd
   }
-
-  const exes = await getDirFiles(nodeModuleBinPath)
-  const files = exes.map((e) => e.name)
-  return cmd.map((bin) =>
-    files.includes(bin) ? join(nodeModuleBinPath, bin) : bin,
-  )
 }
 
 async function getPackageScripts(): Promise<IScriptObject> {
-  const cwd = Deno.cwd()
-  const pkgPath = join(cwd, 'package.json')
+  try {
+    const cwd = Deno.cwd()
+    const pkgPath = join(cwd, 'package.json')
 
-  if (!(await exists(pkgPath))) {
+    const text = await Deno.readTextFile(pkgPath)
+    const json = JSON.parse(text)
+
+    return json.scripts || {}
+  } catch (_error) {
     return {}
   }
-
-  const text = await Deno.readTextFile(pkgPath)
-
-  const json = JSON.parse(text)
-
-  return json.scripts || {}
 }
 
 export async function getScriptContent(
