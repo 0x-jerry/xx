@@ -2,7 +2,6 @@ import { Command, HelpCommand, CompletionsCommand } from 'cliffy/command/mod.ts'
 import { UpgradeCommand } from 'cliffy/command/upgrade/mod.ts'
 import { GithubProvider } from 'cliffy/command/upgrade/provider/github.ts'
 import { version } from '../version.ts'
-import { config } from './config.ts'
 
 import { releaseCommand } from './commands/release.ts'
 import { confCommand } from './commands/conf.ts'
@@ -15,43 +14,45 @@ import { debug } from './debug.ts'
 const x = new Command()
   .name('x')
   .version(version)
-  .globalOption('--debug', 'Enable debug mode.', (val) => {
-    val = !!val
-
-    config.debug = val
-
-    return val
-  })
   .description('Some useful command for myself.')
   .default('help')
-  // help
-  .command('help', new HelpCommand())
-  // upgrade
-  .command(
-    'upgrade',
-    new UpgradeCommand({
-      main: 'x.ts',
-      importMap: 'import_map.json',
-      args: ['-A', '--no-check', '--unstable'],
-      provider: new GithubProvider({
-        repository: '0x-jerry/x',
-      }),
+
+// help
+x.command('help', new HelpCommand())
+
+// upgrade
+x.command(
+  'upgrade',
+  new UpgradeCommand({
+    main: 'x.ts',
+    importMap: 'import_map.json',
+    args: ['-A', '--no-check', '--unstable'],
+    provider: new GithubProvider({
+      repository: '0x-jerry/x',
     }),
-  )
-  // completion
-  .command('completions', new CompletionsCommand())
-  // release
-  .command('release', releaseCommand)
-  // conf
-  .command('conf', confCommand)
-  // nrm
-  .command('nrm', nrmCommand)
-  // run
-  .command('run', runCommand)
-  // git
-  .command('git', gitCommand)
-  // code
-  .command('code', codeCommand)
+  }),
+)
+
+// completion
+x.command('completions', new CompletionsCommand())
+
+// release
+x.command('release', releaseCommand)
+
+// conf
+x.command('conf', confCommand)
+
+// nrm
+x.command('nrm', nrmCommand)
+
+// run
+x.command('run', runCommand)
+
+// git
+x.command('git', gitCommand)
+
+// code
+x.command('code', codeCommand)
 
 // parse
 try {
