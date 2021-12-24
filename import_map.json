@@ -8,6 +8,6 @@
     "fmt/": "https://deno.land/std@0.119.0/fmt/",
     "fs/": "https://deno.land/std@0.119.0/fs/",
     "testing/": "https://deno.land/std@0.119.0/testing/",
-    "@vue/reactivity": "https://cdn.skypack.dev/@vue/reactivity@3.2.1?dts"
+    "@vue/reactivity": "https://cdn.skypack.dev/@vue/reactivity@3.2.26?dts"
   }
 }
