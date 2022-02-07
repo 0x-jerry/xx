@@ -2,14 +2,14 @@ import { RegistryManager } from './RegistryManager.ts'
 import { which, runPiped } from '../../utils.ts'
 
 class Npm extends RegistryManager {
-  protected checkIsExist(): boolean {
-    return !!which('npm')
+  protected async checkIsExist(): Promise<boolean> {
+    return !!(await which('npm'))
   }
 
   async getVersion(): Promise<string> {
     let version = ''
 
-    if (this.isExist()) {
+    if (await this.isExist()) {
       version = await runPiped('npm', '-v')
     }
 
@@ -30,7 +30,7 @@ class Npm extends RegistryManager {
   }
 
   async getConfig(key: string): Promise<string> {
-    if (!this.isExist()) {
+    if (!(await this.isExist())) {
       return ''
     }
 
