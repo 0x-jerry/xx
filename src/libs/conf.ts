@@ -1,7 +1,6 @@
 import { ensureDirSync } from 'fs/mod.ts'
 import { join, dirname } from 'path/mod.ts'
-import { homedir } from '../utils.ts'
-import { createConfig } from 'x-lib'
+import { homedir, createConfig } from '../utils.ts'
 
 type SaveFn = (name: string, data: string) => void
 type ReadFn = (name: string) => string | null
