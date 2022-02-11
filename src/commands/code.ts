@@ -25,12 +25,14 @@ export const codeCommand = new Command()
       folder && recentlyOpenedItems.find((f) => f.label.includes(folder))
 
     if (hit) {
-      const yes = await Confirm.prompt({
-        message: `Did you mean to open: ${hit.label} ?`,
-        default: true,
-      })
+      if (folder !== hit.label) {
+        const yes = await Confirm.prompt({
+          message: `Did you mean to open: ${hit.label} ?`,
+          default: true,
+        })
 
-      if (!yes) return
+        if (!yes) return
+      }
     } else {
       console.log(`Can't find file contain ${folder}, please select one.`)
 
