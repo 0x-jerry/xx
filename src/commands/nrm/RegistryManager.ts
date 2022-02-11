@@ -1,5 +1,5 @@
 export abstract class RegistryManager {
-  protected abstract checkIsExist(): boolean
+  protected abstract checkIsExist(): Promise<boolean>
 
   abstract setConfig(key: string, value: string): Promise<boolean>
   abstract getConfig(key: string): Promise<string>
@@ -7,8 +7,8 @@ export abstract class RegistryManager {
 
   private _isExist?: boolean
 
-  isExist(): boolean {
-    this._isExist = this._isExist ?? this.checkIsExist()
+  async isExist(): Promise<boolean> {
+    this._isExist = this._isExist ?? (await this.checkIsExist())
 
     return this._isExist
   }
