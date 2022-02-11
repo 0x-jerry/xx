@@ -20,13 +20,15 @@ async function _printRegistry(registries: NRMConfig['registries']) {
 
   const used: { type: string; registry: string }[] = []
 
-  for (const key in managers) {
+  const p = Object.keys(managers).map(async (key) => {
     const manager = managers[key]
     used.push({
       type: key,
       registry: await manager.getConfig('registry'),
     })
-  }
+  })
+
+  await Promise.all(p)
 
   table.push(['*', 'Name', 'Registry', 'Home url', 'Used by'])
 
