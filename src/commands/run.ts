@@ -1,6 +1,6 @@
 import { Command } from 'cliffy/command/mod.ts'
 import { join } from 'path/mod.ts'
-import { run, getDirFiles } from '../utils.ts'
+import { run } from '../utils.ts'
 import { red, cyan, rgb24 } from 'fmt/colors.ts'
 
 export const runCommand = new Command()
@@ -13,10 +13,12 @@ export const runCommand = new Command()
   .stopEarly()
   .arguments('<script:string:script> [...params]')
   .action(async (_, scriptName: string, params: string[] = []) => {
-    const [cmdString, allScripts] = await getScriptContent(scriptName)
+    const [scriptExecuteContent, allScripts] = await getScriptContent(
+      scriptName,
+    )
 
-    if (cmdString) {
-      await executeScript(cmdString, params)
+    if (scriptExecuteContent) {
+      await executeScript(scriptExecuteContent, params)
       return
     }
 
@@ -32,31 +34,18 @@ interface IScriptObject {
   [key: string]: string
 }
 
-async function executeScript(cmdString: string, params: string[]) {
-  const commands = parseCmdStr(cmdString)
+async function executeScript(scriptContent: string, params: string[]) {
+  const cmd = [scriptContent, ...params]
 
-  console.log(rgb24(['$', cmdString].join(' '), 0x999999))
-  for (let idx = 0; idx < commands.length; idx++) {
-    const cmd = commands[idx]
+  const stringified = cmd
+    .map((n) => (/\s/.test(n) ? JSON.stringify(n) : n))
+    .join(' ')
 
-    const args = await covertCmd(cmd)
-    const lastParams = idx === commands.length - 1 ? params : []
+  console.log(rgb24(['$', stringified].join(' '), 0x999999))
 
-    await run({ log: false }, ...args, ...lastParams)
-  }
-}
+  await run({ log: false }, 'sh', '-c', cmd.join(' '))
 
-async function covertCmd(cmd: string[]): Promise<string[]> {
-  try {
-    const nodeModuleBinPath = join(Deno.cwd(), 'node_modules', '.bin')
-    const exes = await getDirFiles(nodeModuleBinPath)
-    const files = exes.map((e) => e.name)
-    return cmd.map((bin) =>
-      files.includes(bin) ? join(nodeModuleBinPath, bin) : bin,
-    )
-  } catch (_error) {
-    return cmd
-  }
+  return
 }
 
 async function getPackageScripts(): Promise<IScriptObject> {
@@ -81,39 +70,6 @@ export async function getScriptContent(
   const scripts = allScripts.reduce((pre, cur) => Object.assign(pre, cur), {})
 
   return [scripts[cmd], Object.keys(scripts)]
-}
-
-export function parseCmdStr(cmdStr: string): string[][] {
-  const char = '\\w-+/\\.'
-
-  const name = `[-${char}\\.]+`
-  const quote = `('.+'|".+")`
-  const eq = `${name}=${quote}`
-
-  const regexp = new RegExp(`(${eq}|${quote}|\\s+|[^\\s]+)`, 'g')
-
-  const commands = cmdStr.split(/\s&&\s/g).map((cmd) => {
-    const matches: string[] = cmd.match(regexp) || []
-
-    return matches
-      .map((n) => n.trim())
-      .filter((n) => n)
-      .reduce((params, cur) => {
-        if (cur.includes('=')) {
-          params.push(...cur.split('=').map((n) => transformQuote(n)))
-        } else {
-          params.push(transformQuote(cur))
-        }
-
-        return params
-      }, [] as string[])
-  })
-
-  return commands
-}
-
-function transformQuote(quote: string) {
-  return /^['"]/.test(quote) ? quote.slice(1, -1) : quote
 }
 
 if (import.meta.main) {
