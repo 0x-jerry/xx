@@ -6,15 +6,33 @@ import * as semver from 'semver/mod.ts'
 
 const pkgPath = join(Deno.cwd(), 'package.json')
 
+interface ReleaseCommandOption {
+  deno: boolean
+  patch: boolean
+  minor: boolean
+  major: boolean
+}
+
 export const releaseCommand = new Command()
   .description('Create a new release for deno project.')
   .option('-d, --deno', 'A deno project.')
+  .option('--patch', 'Create a path release.')
+  .option('--minor', 'Create a minor release.')
+  .option('--major', 'Create a major release.')
   .default('help')
   .command('help', new HelpCommand())
-  .action(async ({ deno: isDeno = false } = {}) => {
+  .action(async (opt: ReleaseCommandOption) => {
     const pkgConf = await getPkgConfig<IConfig>()
 
-    const releaseVersion = await getNextVersion(pkgConf)
+    const nextType = opt.major
+      ? 'major'
+      : opt.minor
+      ? 'minor'
+      : opt.patch
+      ? 'patch'
+      : undefined
+
+    const releaseVersion = await getNextVersion(pkgConf, nextType)
 
     if (!releaseVersion) {
       Deno.exit()
@@ -24,7 +42,7 @@ export const releaseCommand = new Command()
       await run('x', 'run', 'test')
     }
 
-    if (isDeno) {
+    if (opt.deno) {
       // write version to version.ts
       await writeVersionFile(releaseVersion)
       await run('git', 'add', 'version.ts')
@@ -62,8 +80,15 @@ interface IConfig {
   scripts?: Record<string, string>
 }
 
-async function getNextVersion(pkgConf: IConfig) {
+async function getNextVersion(
+  pkgConf: IConfig,
+  specifiedReleaseType?: semver.ReleaseType,
+) {
   const inc = (type: semver.ReleaseType) => semver.inc(pkgConf.version, type)
+
+  if (specifiedReleaseType) {
+    return inc(specifiedReleaseType)
+  }
 
   const types: semver.ReleaseType[] = ['patch', 'minor', 'major']
 
