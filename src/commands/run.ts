@@ -35,15 +35,13 @@ interface IScriptObject {
 }
 
 async function executeScript(scriptContent: string, params: string[]) {
-  const cmd = [scriptContent, ...params]
-
-  const stringified = cmd
+  const stringified = params
     .map((n) => (/\s/.test(n) ? JSON.stringify(n) : n))
     .join(' ')
 
-  console.log(rgb24(['$', stringified].join(' '), 0x999999))
+  console.log(rgb24(['$', scriptContent, stringified].join(' '), 0x999999))
 
-  await run({ log: false }, 'sh', '-c', cmd.join(' '))
+  await run({ log: false }, 'sh', '-c', [scriptContent, ...params].join(' '))
 
   return
 }
