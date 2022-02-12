@@ -5,7 +5,7 @@ import { red, cyan, rgb24 } from 'fmt/colors.ts'
 
 export const runCommand = new Command()
   .name('xr')
-  .description('Run custom script in package.json, like npm run.')
+  .description('Run custom script in package.json, like yarn run.')
   .complete('script', async () => {
     const [_, allScripts] = await getScriptContent()
     return allScripts

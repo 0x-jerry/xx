@@ -1,0 +1,1 @@
+deno install -r -qAf --no-check --unstable --import-map https://raw.githubusercontent.com/0x-jerry/x/main/import_map.json https://raw.githubusercontent.com/0x-jerry/x/main/xr.ts
