@@ -41,9 +41,27 @@ async function executeScript(scriptContent: string, params: string[]) {
 
   console.log(rgb24(['$', scriptContent, stringified].join(' '), 0x999999))
 
-  await run({ log: false }, 'sh', '-c', [scriptContent, ...params].join(' '))
+  await run(
+    {
+      log: false,
+      env: makeEnv(),
+    },
+    'sh',
+    '-c',
+    [scriptContent, ...params].join(' '),
+  )
 
   return
+}
+
+function makeEnv() {
+  const cwd = Deno.cwd()
+  const env = Deno.env.toObject()
+  const PATH = join(cwd, 'node_modules', '.bin')
+
+  env.PATH = [Deno.env.get('PATH') || '', PATH].filter(Boolean).join(';')
+
+  return env
 }
 
 async function getPackageScripts(): Promise<IScriptObject> {
