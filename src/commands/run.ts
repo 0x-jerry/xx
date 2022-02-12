@@ -59,7 +59,7 @@ function makeEnv() {
   const env = Deno.env.toObject()
   const PATH = join(cwd, 'node_modules', '.bin')
 
-  env.PATH = [Deno.env.get('PATH') || '', PATH].filter(Boolean).join(';')
+  env.PATH = [Deno.env.get('PATH') || '', PATH].filter(Boolean).join(':')
 
   return env
 }
