@@ -30,10 +30,6 @@ export const runCommand = new Command()
     )
   })
 
-interface IScriptObject {
-  [key: string]: string
-}
-
 async function executeScript(scriptContent: string, params: string[]) {
   const stringified = params
     .map((n) => (/\s/.test(n) ? JSON.stringify(n) : n))
@@ -64,28 +60,47 @@ function makeEnv() {
   return env
 }
 
-async function getPackageScripts(): Promise<IScriptObject> {
-  try {
-    const cwd = Deno.cwd()
-    const pkgPath = join(cwd, 'package.json')
+async function getPackageScripts(): Promise<Map<string, string>> {
+  const scripts = new Map<string, string>()
+  const cwd = Deno.cwd()
+  const pkgPath = join(cwd, 'package.json')
 
+  try {
     const text = await Deno.readTextFile(pkgPath)
     const json = JSON.parse(text)
-
-    return json.scripts || {}
+    Object.entries(json.scripts).forEach(([name, content]) => {
+      scripts.set(name, content as string)
+    })
   } catch (_error) {
-    return {}
+    //
   }
+
+  return scripts
 }
 
-export async function getScriptContent(
-  cmd = '',
-): Promise<[string | false, string[]]> {
-  const allScripts: IScriptObject[] = await Promise.all([getPackageScripts()])
+async function getBinScripts(): Promise<Map<string, string>> {
+  const binCommands = new Map<string, string>()
+  const cwd = Deno.cwd()
+  const binPath = join(cwd, 'node_modules', '.bin')
 
-  const scripts = allScripts.reduce((pre, cur) => Object.assign(pre, cur), {})
+  try {
+    for await (const file of Deno.readDir(binPath)) {
+      binCommands.set(file.name, join(binPath, file.name))
+    }
+  } catch (_error) {
+    //
+  }
+  return binCommands
+}
 
-  return [scripts[cmd], Object.keys(scripts)]
+async function getScriptContent(cmd = ''): Promise<[string | false, string[]]> {
+  const scripts = await getPackageScripts()
+  const binCommands = await getBinScripts()
+
+  const executeContent =
+    scripts.get(cmd) || (binCommands.has(cmd) ? cmd : false)
+
+  return [executeContent, [...scripts.keys(), ...binCommands.keys()]]
 }
 
 if (import.meta.main) {
