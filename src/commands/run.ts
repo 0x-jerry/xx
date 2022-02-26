@@ -1,5 +1,5 @@
 import { Command } from 'cliffy/command/mod.ts'
-import { join } from 'path/mod.ts'
+import { join, resolve } from 'path/mod.ts'
 import { run } from '../utils.ts'
 import { red, cyan, rgb24 } from 'fmt/colors.ts'
 
@@ -53,7 +53,24 @@ async function executeScript(scriptContent: string, params: string[]) {
 function makeEnv() {
   const cwd = Deno.cwd()
   const env = Deno.env.toObject()
-  const PATH = join(cwd, 'node_modules', '.bin')
+
+  const envPaths: string[] = []
+
+  let dir = cwd
+  do {
+    const PATH = join(dir, 'node_modules', '.bin')
+
+    try {
+      Deno.statSync(PATH)
+      envPaths.push(PATH)
+    } catch (_error) {
+      // ignore
+    }
+
+    dir = resolve(dir, '..')
+  } while (dir !== resolve(dir, '..'))
+
+  const PATH = envPaths.join(':')
 
   env.PATH = [Deno.env.get('PATH') || '', PATH].filter(Boolean).join(':')
 
