@@ -15,8 +15,8 @@ export const runCommand = new Command()
   .description('Run custom script in package.json, like yarn run.')
   .stopEarly()
   .type('script', new ScriptType())
-  .arguments('<script:script> [params...:file]')
-  .action(async (_, scriptName: string, params: string[] = []) => {
+  .arguments('<script:script> [params...:string:file]')
+  .action(async (_, scriptName, params = []) => {
     const [scriptExecuteContent, allScripts] = await getScriptContent(
       scriptName,
     )
