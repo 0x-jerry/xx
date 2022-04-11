@@ -1,17 +1,21 @@
-import { Command } from 'cliffy/command/mod.ts'
+import { Command, StringType } from 'cliffy/command/mod.ts'
 import { join, resolve } from 'path/mod.ts'
 import { run } from '../utils.ts'
 import { red, cyan, rgb24 } from 'fmt/colors.ts'
 
+class ScriptType extends StringType {
+  async complete() {
+    const [_, allScripts] = await getScriptContent()
+    return allScripts
+  }
+}
+
 export const runCommand = new Command()
   .name('xr')
   .description('Run custom script in package.json, like yarn run.')
-  .complete('script', async () => {
-    const [_, allScripts] = await getScriptContent()
-    return allScripts
-  })
   .stopEarly()
-  .arguments('<script:string:script> [...params]')
+  .type('script', new ScriptType())
+  .arguments('<script:script> [params...:file]')
   .action(async (_, scriptName: string, params: string[] = []) => {
     const [scriptExecuteContent, allScripts] = await getScriptContent(
       scriptName,
