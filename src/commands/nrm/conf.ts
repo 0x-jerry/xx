@@ -23,8 +23,8 @@ export function defaultConfig(): NRMConfig {
         registry: 'https://registry.yarnpkg.com/',
       },
       tb: {
-        home: 'https://npm.taobao.org',
-        registry: 'https://registry.npm.taobao.org/',
+        home: 'https://npmmirror.com/',
+        registry: 'https://registry.npmmirror.com/',
       },
     },
   }

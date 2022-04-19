@@ -22,7 +22,7 @@ nrmCommand
   )
   .complete('registry', () => registryNames)
   .type('manager', managerType)
-  .option('-m, --manager [manager:manager]', 'Registry manager type')
+  .option('-m, --manager <manager:manager>', 'Registry manager type')
   .action((opt, name) => useRegistry(name, opt.manager))
 
 nrmCommand
