@@ -1,7 +1,7 @@
 {
   "imports": {
     "d-lib": "https://raw.githubusercontent.com/0x-jerry/d-lib/v0.2.3/mod.ts",
-    "cliffy/": "https://deno.land/x/cliffy@v0.23.0/",
+    "cliffy/": "https://deno.land/x/cliffy@v0.23.2/",
     "semver/": "https://deno.land/x/semver@v1.4.0/",
     "path/": "https://deno.land/std@0.135.0/path/",
     "fmt/": "https://deno.land/std@0.135.0/fmt/",

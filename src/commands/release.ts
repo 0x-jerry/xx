@@ -6,22 +6,15 @@ import * as semver from 'semver/mod.ts'
 
 const pkgPath = join(Deno.cwd(), 'package.json')
 
-interface ReleaseCommandOption {
-  deno: boolean
-  patch: boolean
-  minor: boolean
-  major: boolean
-}
-
 export const releaseCommand = new Command()
   .description('Create a new release for deno project.')
+  .default('help')
+  .command('help', new HelpCommand())
   .option('-d, --deno', 'A deno project.')
   .option('--patch', 'Create a path release.')
   .option('--minor', 'Create a minor release.')
   .option('--major', 'Create a major release.')
-  .default('help')
-  .command('help', new HelpCommand())
-  .action(async (opt: ReleaseCommandOption) => {
+  .action(async (opt) => {
     const pkgConf = await getPkgConfig<IConfig>()
 
     const nextType = opt.major
