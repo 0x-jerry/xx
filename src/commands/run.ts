@@ -101,16 +101,19 @@ async function getPackageScripts(): Promise<Map<string, string>> {
 
 async function getBinScripts(): Promise<Map<string, string>> {
   const binCommands = new Map<string, string>()
-  const cwd = Deno.cwd()
-  const binPath = join(cwd, 'node_modules', '.bin')
+  const dir = Deno.cwd()
 
-  try {
-    for await (const file of Deno.readDir(binPath)) {
-      binCommands.set(file.name, join(binPath, file.name))
+  do {
+    const binPath = join(dir, 'node_modules', '.bin')
+    try {
+      for await (const file of Deno.readDir(binPath)) {
+        binCommands.set(file.name, join(binPath, file.name))
+      }
+    } catch (_error) {
+      //
     }
-  } catch (_error) {
-    //
-  }
+  } while (dir !== resolve(dir, '..'))
+
   return binCommands
 }
 
