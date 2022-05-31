@@ -2,6 +2,7 @@ import { Command, StringType } from 'cliffy/command/mod.ts'
 import { join, resolve } from 'path/mod.ts'
 import { run } from '../utils.ts'
 import { red, cyan, rgb24 } from 'fmt/colors.ts'
+import * as JSONC from 'encoding/jsonc.ts'
 
 class ScriptType extends StringType {
   async complete() {
@@ -107,7 +108,7 @@ async function getBinScripts(): Promise<Map<string, string>> {
     const binPath = join(dir, 'node_modules', '.bin')
     try {
       for await (const file of Deno.readDir(binPath)) {
-        binCommands.set(file.name, join(binPath, file.name))
+        binCommands.set(file.name, file.name)
       }
     } catch (_error) {
       //
@@ -119,14 +120,49 @@ async function getBinScripts(): Promise<Map<string, string>> {
   return binCommands
 }
 
+async function getDenoTasks(): Promise<Map<string, string>> {
+  const tasks = new Map<string, string>()
+  const cwd = Deno.cwd()
+
+  try {
+    let txt = ''
+
+    try {
+      const denoConf = join(cwd, 'deno.json')
+      txt = await Deno.readTextFile(denoConf)
+    } catch (_error) {
+      const denoConf = join(cwd, 'deno.jsonc')
+      txt = await Deno.readTextFile(denoConf)
+    }
+
+    if (!txt) {
+      return tasks
+    }
+
+    const json = JSONC.parse(txt) as any
+    Object.entries(json.tasks).forEach(([name, content]) => {
+      tasks.set(name, content as string)
+    })
+  } catch (_error) {
+    //
+  }
+
+  return tasks
+}
+
 async function getScriptContent(cmd = ''): Promise<[string | false, string[]]> {
+  const tasks = await getDenoTasks()
   const scripts = await getPackageScripts()
   const binCommands = await getBinScripts()
 
   const executeContent =
-    scripts.get(cmd) || (binCommands.has(cmd) ? cmd : false)
+    tasks.get(cmd) || scripts.get(cmd) || binCommands.get(cmd) || false
 
-  return [executeContent, [...scripts.keys(), ...binCommands.keys()]]
+  const uniq = [
+    ...new Set([...tasks.keys(), ...scripts.keys(), ...binCommands.keys()]),
+  ]
+
+  return [executeContent, uniq]
 }
 
 if (import.meta.main) {
