@@ -1,20 +1,16 @@
 import { Command, HelpCommand } from 'cliffy/command/mod.ts'
-import { join } from 'path/mod.ts'
 import { Select } from 'cliffy/prompt/select.ts'
 import { run } from '../utils.ts'
 import * as semver from 'semver/mod.ts'
-
-const pkgPath = join(Deno.cwd(), 'package.json')
+import { version } from '../../version.ts'
 
 export const releaseCommand = new Command()
+  .hidden()
   .description('Create a new release for deno project.')
-  .option('-d, --deno', 'A deno project.')
   .option('--patch', 'Create a path release.')
   .option('--minor', 'Create a minor release.')
   .option('--major', 'Create a major release.')
   .action(async (opt) => {
-    const pkgConf = await getPkgConfig<IConfig>()
-
     const nextType = opt.major
       ? 'major'
       : opt.minor
@@ -23,25 +19,14 @@ export const releaseCommand = new Command()
       ? 'patch'
       : undefined
 
-    const releaseVersion = await getNextVersion(pkgConf, nextType)
+    const releaseVersion = await getNextVersion(version, nextType)
 
     if (!releaseVersion) {
       Deno.exit()
     }
 
-    if (pkgConf.scripts?.test) {
-      await run('x', 'run', 'test')
-    }
-
-    if (opt.deno) {
-      // write version to version.ts
-      await writeVersionFile(releaseVersion)
-      await run('git', 'add', 'version.ts')
-    }
-
-    // change package.json
-    await modifyPackageVersion(releaseVersion)
-    await run('git', 'add', 'package.json')
+    await writeVersionFile(releaseVersion)
+    await run('git', 'add', 'version.ts')
 
     // commit
     await run('git', 'commit', '-m', `chore: release ${releaseVersion}`)
@@ -50,34 +35,15 @@ export const releaseCommand = new Command()
     // push
     await run('git', 'push')
     await run('git', 'push', '--tags')
-
-    // --------
-
-    async function modifyPackageVersion(version: string) {
-      pkgConf.version = version
-
-      await Deno.writeTextFile(pkgPath, JSON.stringify(pkgConf, null, 2))
-    }
-
-    async function getPkgConfig<T>(): Promise<T> {
-      const fileContent = await Deno.readTextFile(pkgPath)
-
-      return JSON.parse(fileContent)
-    }
   })
 
 releaseCommand.command('help', new HelpCommand())
 
-interface IConfig {
-  version: string
-  scripts?: Record<string, string>
-}
-
 async function getNextVersion(
-  pkgConf: IConfig,
+  version: string,
   specifiedReleaseType?: semver.ReleaseType,
 ) {
-  const inc = (type: semver.ReleaseType) => semver.inc(pkgConf.version, type)
+  const inc = (type: semver.ReleaseType) => semver.inc(version, type)
 
   if (specifiedReleaseType) {
     return inc(specifiedReleaseType)
