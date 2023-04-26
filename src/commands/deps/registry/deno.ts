@@ -20,8 +20,7 @@ export class DenoStdProvider extends RegistryProvider<DenoStdParseResult> {
    * @returns
    */
   parse(url: string): DenoStdParseResult {
-    const r =
-      /^https?:\/\/deno\.land\/std@(?<version>[^/]+)\/(?<mod>[^/]+)(?<entry>.*)/
+    const r = /^https?:\/\/deno\.land\/std@(?<version>[^/]+)\/(?<entry>.*)/
 
     const group = r.exec(url)?.groups || {}
 

@@ -147,6 +147,7 @@
     "https://deno.land/x/cliffy@v0.25.7/table/table.ts": "ec204c9d08bb3ff1939c5ac7412a4c9ed7d00925d4fc92aff9bfe07bd269258d",
     "https://deno.land/x/cliffy@v0.25.7/table/utils.ts": "187bb7dcbcfb16199a5d906113f584740901dfca1007400cba0df7dcd341bc29",
     "https://deno.land/x/semver@v1.4.0/mod.ts": "c3e08f7f0a3e625015ecc9a46cf79a9dc3f081f3c5b3037d3c49c0773e58d265",
+    "https://deno.land/x/semver@v1.4.1/mod.ts": "0b79c87562eb8a1f008ab0d98f8bb60076dd65bc06f1f8fdfac2d2dab162c27b",
     "https://raw.githubusercontent.com/0x-jerry/d-lib/v0.2.3/mod.ts": "e1b0fb048cddc0c03b9610b26ac6134772a50a4397be2b054750f972a8ba4d6f",
     "https://raw.githubusercontent.com/0x-jerry/d-lib/v0.2.3/src/createConfig.ts": "0b648627c2c0c7b660d685f134d705994cc614b5e48a98def59f59ec24053bb9",
     "https://raw.githubusercontent.com/0x-jerry/d-lib/v0.2.3/src/fs.ts": "9d0043de94baf130fb50ead6154e878cf409ea3bdc4b6c223766d88fa7c9da62",

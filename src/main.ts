@@ -10,6 +10,7 @@ import { runCommand } from './commands/run.ts'
 import { gitCommand } from './commands/git.ts'
 import { codeCommand } from './commands/code.ts'
 import { debug } from './debug.ts'
+import { xmCommander } from './commands/deps/mod.ts'
 
 const x = new Command()
   .name('x')
@@ -53,6 +54,9 @@ x.command('git', gitCommand)
 
 // code
 x.command('code', codeCommand)
+
+// xm
+x.command('deps', xmCommander)
 
 // parse
 try {

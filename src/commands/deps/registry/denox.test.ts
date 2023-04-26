@@ -1,4 +1,4 @@
-import { assertEquals } from 'testing/asserts.ts'
+import { assertEquals } from 'std/testing/asserts.ts'
 import { DenoProvider } from './denox.ts'
 
 const p = new DenoProvider()

@@ -1,7 +1,7 @@
 import { RegistryProvider } from './RegistryProvider.ts'
 import { ModVersions, RegistryOption } from './type.ts'
 
-import { assertEquals } from 'testing/asserts.ts'
+import { assertEquals } from 'std/testing/asserts.ts'
 
 class TestProvider extends RegistryProvider {
   type: string = ''

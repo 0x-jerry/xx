@@ -1,4 +1,4 @@
-import { assertEquals } from 'testing/asserts.ts'
+import { assertEquals } from 'std/testing/asserts.ts'
 import { getLatestCompatibleVersion } from './utils.ts'
 
 Deno.test('getLatestVersion', () => {

@@ -1,4 +1,4 @@
-import { assertEquals } from 'testing/asserts.ts'
+import { assertEquals } from 'std/testing/asserts.ts'
 import { SkypackProvider } from './skypack.ts'
 
 const p = new SkypackProvider()
