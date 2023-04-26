@@ -7,10 +7,10 @@ Deno.test('parse url', () => {
   const r = p.parse('https://deno.land/std@0.113.0/fmt/')
 
   assertEquals(r, {
-    mod: 'fmt',
+    mod: '',
     version: '0.113.0',
     type: p.type,
-    entry: '/',
+    entry: 'fmt/',
   })
 })
 
@@ -18,10 +18,10 @@ Deno.test('parse url with entry', () => {
   const r = p.parse('https://deno.land/std@0.113.0/fmt/xx/mod.ts')
 
   assertEquals(r, {
-    mod: 'fmt',
+    mod: '',
     version: '0.113.0',
     type: p.type,
-    entry: '/xx/mod.ts',
+    entry: 'fmt/xx/mod.ts',
   })
 })
 
@@ -60,10 +60,10 @@ Deno.test('parse mod name with entry', () => {
 
 Deno.test('generate', () => {
   const r = p.generate({
-    mod: 'testing',
+    mod: '',
     version: '0.111.0',
     type: p.type,
-    entry: '',
+    entry: 'testing',
   })
 
   assertEquals(r, 'https://deno.land/std@0.111.0/testing')
@@ -71,10 +71,10 @@ Deno.test('generate', () => {
 
 Deno.test('generate with entry', () => {
   const r = p.generate({
-    mod: 'testing',
+    mod: '',
     version: '0.111.0',
     type: p.type,
-    entry: '/xx/mod.ts',
+    entry: 'testing/xx/mod.ts',
   })
 
   assertEquals(r, 'https://deno.land/std@0.111.0/testing/xx/mod.ts')

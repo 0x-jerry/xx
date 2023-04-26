@@ -22,9 +22,9 @@ export class DenoStdProvider extends RegistryProvider<DenoStdParseResult> {
   parse(url: string): DenoStdParseResult {
     const r = /^https?:\/\/deno\.land\/std@(?<version>[^/]+)\/(?<entry>.*)/
 
-    const group = r.exec(url)?.groups || {}
+    const group = r.exec(url)?.groups
 
-    if (!group.mod) {
+    if (!group) {
       throw new Error(`Parse error: ${url}`)
     }
 
@@ -56,12 +56,12 @@ export class DenoStdProvider extends RegistryProvider<DenoStdParseResult> {
   }
 
   generate(opt: DenoStdParseResult): string {
-    const { version, mod, entry } = opt
+    const { version, entry } = opt
 
-    return `https://deno.land/std@${version}/${mod}${entry}`
+    return `https://deno.land/std@${version}/${entry}`
   }
 
-  async versions(opt: DenoStdParseResult): Promise<ModVersions> {
+  async versions(_opt: DenoStdParseResult): Promise<ModVersions> {
     const res = await fetch(`https://cdn.deno.land/std/meta/versions.json`)
 
     const r: DenoFetchResult = await res.json()
