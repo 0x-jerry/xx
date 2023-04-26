@@ -1,5 +1,5 @@
 import { config } from './config.ts'
-import { cyan, red, yellow } from 'fmt/colors.ts'
+import { cyan, red, yellow } from 'std/fmt/colors.ts'
 
 export function debug(...args: unknown[]) {
   config.debug && console.log(...args)

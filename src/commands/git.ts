@@ -1,6 +1,6 @@
 import { Command, HelpCommand } from 'cliffy/command/mod.ts'
 import { runPiped } from '../utils.ts'
-import { green } from 'fmt/colors.ts'
+import { green } from 'std/fmt/colors.ts'
 
 export const gitCommand = new Command()
   .description('Some useful command for git repository.')

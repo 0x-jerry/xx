@@ -1,5 +1,5 @@
-import { ensureDirSync } from 'fs/mod.ts'
-import { join, dirname } from 'path/mod.ts'
+import { ensureDirSync } from 'std/fs/mod.ts'
+import { join, dirname } from 'std/path/mod.ts'
 import { homedir, createConfig } from '../utils.ts'
 
 type SaveFn = (name: string, data: string) => void

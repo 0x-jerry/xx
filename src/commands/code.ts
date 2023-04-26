@@ -1,5 +1,5 @@
 import { Command } from 'cliffy/command/mod.ts'
-import { join } from 'path/mod.ts'
+import { join } from 'std/path/mod.ts'
 import { run, homedir } from '../utils.ts'
 import { Confirm } from 'cliffy/prompt/confirm.ts'
 import { Select } from 'cliffy/prompt/select.ts'

@@ -1,4 +1,4 @@
-import { yellow, green } from 'fmt/colors.ts'
+import { yellow, green } from 'std/fmt/colors.ts'
 import { Confirm } from 'cliffy/prompt/confirm.ts'
 import { npm } from './npm.ts'
 import { yarn } from './yarn.ts'

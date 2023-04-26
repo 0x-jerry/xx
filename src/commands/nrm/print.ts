@@ -1,4 +1,4 @@
-import { green } from 'fmt/colors.ts'
+import { green } from 'std/fmt/colors.ts'
 
 export function printTable(table: string[][]) {
   table = uniformTable(table)

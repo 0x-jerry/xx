@@ -1,8 +1,8 @@
 import { Command, StringType } from 'cliffy/command/mod.ts'
-import { join, resolve } from 'path/mod.ts'
+import { join, resolve } from 'std/path/mod.ts'
 import { run } from '../utils.ts'
-import { red, cyan, rgb24 } from 'fmt/colors.ts'
-import * as JSONC from 'encoding/jsonc.ts'
+import { red, cyan, rgb24 } from 'std/fmt/colors.ts'
+import * as JSONC from 'std/jsonc/mod.ts'
 
 class ScriptType extends StringType {
   async complete() {

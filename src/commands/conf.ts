@@ -1,8 +1,8 @@
-import { green, yellow, cyan } from 'fmt/colors.ts'
+import { green, yellow, cyan } from 'std/fmt/colors.ts'
 import { Command, HelpCommand } from 'cliffy/command/mod.ts'
-import { exists } from 'fs/mod.ts'
+import { exists } from 'std/fs/mod.ts'
 import { getConfPath } from '../libs/conf.ts'
-import { join } from 'path/mod.ts'
+import { join } from 'std/path/mod.ts'
 
 export const confCommand = new Command()
   .description('Config manager.')
