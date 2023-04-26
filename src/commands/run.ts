@@ -17,7 +17,7 @@ export const runCommand = new Command()
   .stopEarly()
   .type('script', new ScriptType())
   .arguments('<script:script> [...params:file]')
-  .action(async (_, scriptName, params = []) => {
+  .action(async (_, scriptName, ...params) => {
     const [scriptExecuteContent, allScripts] = await getScriptContent(
       scriptName,
     )
