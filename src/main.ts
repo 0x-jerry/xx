@@ -11,6 +11,7 @@ import { gitCommand } from './commands/git.ts'
 import { codeCommand } from './commands/code.ts'
 import { debug } from './debug.ts'
 import { xmCommander } from './commands/deps/mod.ts'
+import { npmCommand } from './commands/npm.ts'
 
 const x = new Command()
   .name('x')
@@ -27,7 +28,7 @@ x.command(
   new UpgradeCommand({
     main: 'x.ts',
     importMap: 'import_map.json',
-    args: ['-A', '--no-check', '--unstable'],
+    args: ['-A'],
     provider: new GithubProvider({
       repository: '0x-jerry/x',
     }),
@@ -46,7 +47,7 @@ x.command('conf', confCommand)
 // nrm
 x.command('nrm', nrmCommand)
 
-// run
+// xr
 x.command('run', runCommand)
 
 // git
@@ -57,6 +58,9 @@ x.command('code', codeCommand)
 
 // xm
 x.command('deps', xmCommander)
+
+// n
+x.command('npm', npmCommand)
 
 // parse
 try {

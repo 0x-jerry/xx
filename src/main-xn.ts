@@ -2,17 +2,17 @@ import { CompletionsCommand } from 'cliffy/command/mod.ts'
 import { UpgradeCommand } from 'cliffy/command/upgrade/mod.ts'
 import { GithubProvider } from 'cliffy/command/upgrade/provider/github.ts'
 
-import { runCommand } from './commands/run.ts'
 import { debug } from './debug.ts'
 import { version } from '../version.ts'
+import { npmCommand } from './commands/npm.ts'
 
-const xr = runCommand.version(version)
+const xn = npmCommand.version(version)
 
 // upgrade
-xr.command(
+xn.command(
   'upgrade',
   new UpgradeCommand({
-    main: 'xr.ts',
+    main: 'xn.ts',
     importMap: 'import_map.json',
     args: ['-A'],
     provider: new GithubProvider({
@@ -22,11 +22,11 @@ xr.command(
 )
 
 // completion
-xr.command('completions', new CompletionsCommand())
+xn.command('completions', new CompletionsCommand())
 
 // parse
 try {
-  await xr.parse()
+  await xn.parse()
 } catch (e) {
   debug.error(e)
 }

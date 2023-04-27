@@ -10,7 +10,7 @@ class Yarn extends RegistryManager {
     let version = ''
 
     if (await this.isExist()) {
-      version = await runPiped('npm', '-v')
+      version = await runPiped('yarn', '-v')
     }
 
     return version

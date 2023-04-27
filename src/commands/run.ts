@@ -1,7 +1,7 @@
 import { Command, StringType } from 'cliffy/command/mod.ts'
 import { join, resolve } from 'std/path/mod.ts'
-import { run } from '../utils.ts'
-import { red, cyan, rgb24 } from 'std/fmt/colors.ts'
+import { exec } from '../utils.ts'
+import { red, cyan } from 'std/fmt/colors.ts'
 import * as JSONC from 'std/jsonc/mod.ts'
 
 class ScriptType extends StringType {
@@ -23,7 +23,7 @@ export const runCommand = new Command()
     )
 
     if (scriptExecuteContent) {
-      await executeScript(scriptExecuteContent, params)
+      await exec(scriptExecuteContent, params, makeEnv())
       return
     }
 
@@ -34,26 +34,6 @@ export const runCommand = new Command()
       allScripts.map((name) => cyan(name)).join(', '),
     )
   })
-
-async function executeScript(scriptContent: string, params: string[]) {
-  const stringified = params
-    .map((n) => (/\s/.test(n) ? JSON.stringify(n) : n))
-    .join(' ')
-
-  console.log(rgb24(['$', scriptContent, stringified].join(' '), 0x999999))
-
-  await run(
-    {
-      log: false,
-      env: makeEnv(),
-    },
-    'sh',
-    '-c',
-    [scriptContent, ...params].join(' '),
-  )
-
-  return
-}
 
 function makeEnv() {
   const cwd = Deno.cwd()
@@ -139,7 +119,8 @@ async function getDenoTasks(): Promise<Map<string, string>> {
       return tasks
     }
 
-    const json = JSONC.parse(txt) as any
+    const json = JSONC.parse(txt) as { tasks: Record<string, string> }
+
     Object.entries(json.tasks).forEach(([name, content]) => {
       tasks.set(name, content as string)
     })
