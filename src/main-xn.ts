@@ -8,9 +8,9 @@ import { npmCommand } from './commands/npm.ts'
 
 const xn = npmCommand.version(version)
 
-// upgrade
+// upgrade self
 xn.command(
-  'upgrade',
+  'upgrade-xn',
   new UpgradeCommand({
     main: 'xn.ts',
     importMap: 'import_map.json',
