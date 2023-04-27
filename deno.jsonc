@@ -5,6 +5,8 @@
     "deno": "deno run -A",
     "dev": "deno run -A --no-check x.ts",
     "test": "deno test --allow-env --allow-read --allow-run",
+    // example: xr install x.ts
+    "install": "deno install -r -Af --import-map ./import_map.json",
     "release": "x release"
   }
 }
