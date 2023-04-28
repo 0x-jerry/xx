@@ -176,6 +176,16 @@
     "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.0/src/mod.ts": "797186ea7b71b38f9161bbafd777ba8ebc06fc422960cd6b543bd912e29feadc",
     "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.0/src/run.ts": "f9b17c620f8d75ee1e0421a843cfae7dd6513cbcdae80e1250170722b5aad4a7",
     "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.0/src/which.ts": "2c58f4173f270806862a46e05a2373db7bab00af04181d9717ee719b405d3119",
-    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.0/version.ts": "2c8aadfe24e34220d18ec898d15f3269089d099503310539ad2fad82bfbc5999"
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.0/version.ts": "2c8aadfe24e34220d18ec898d15f3269089d099503310539ad2fad82bfbc5999",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/deps.ts": "c1b958fb4372572f1afbe15f03a0d052291eaab67b66f83a04e00e82fe32a226",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/mod.ts": "e1b0fb048cddc0c03b9610b26ac6134772a50a4397be2b054750f972a8ba4d6f",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/src/createConfig.ts": "a6afac8f63bb4f476197c8fb23e20b9e1e976023d2b75c98d92fd07fae2b0c8d",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/src/fs.ts": "9d0043de94baf130fb50ead6154e878cf409ea3bdc4b6c223766d88fa7c9da62",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/src/homedir.ts": "2f0d02ac03bfbc4c7015578744c4964964761d3a10ab96c3991ecb56bd8810d1",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/src/isObject.ts": "4179006b65c4a61db0ba2bfeba544c96906079e8c7ec5cba40b7f5f638cf433c",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/src/mod.ts": "797186ea7b71b38f9161bbafd777ba8ebc06fc422960cd6b543bd912e29feadc",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/src/run.ts": "25ba9592d9028efc525242b5f11f60eee67f8836aafa1f2556dd8fd058cfa191",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/src/which.ts": "2c58f4173f270806862a46e05a2373db7bab00af04181d9717ee719b405d3119",
+    "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/version.ts": "ccdfde87ea6e10619c8c502287c267505f943aa2b6e32da55fd379cfb7dcf32c"
   }
 }

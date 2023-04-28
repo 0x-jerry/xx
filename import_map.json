@@ -1,6 +1,6 @@
 {
   "imports": {
-    "x-utils": "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.0/mod.ts",
+    "x-utils": "https://raw.githubusercontent.com/0x-jerry/x-utils/v0.3.1/mod.ts",
     "cliffy/": "https://deno.land/x/cliffy@v0.25.7/",
     "semver/": "https://deno.land/x/semver@v1.4.1/",
     "std/": "https://deno.land/std@0.184.0/",
