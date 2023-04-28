@@ -7,5 +7,7 @@ export const npmCommand = new Command()
   .name('xn')
   .description('Some npm script for manage node deps.')
   .action(() => runNpm('install'))
+
+npmCommand
   .command('install', npmInstallCommand)
   .command('upgrade', npmUpgradeCommand)
