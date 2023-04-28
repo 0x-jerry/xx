@@ -2,7 +2,7 @@ import { Command, HelpCommand } from 'cliffy/command/mod.ts'
 import { Select } from 'cliffy/prompt/select.ts'
 import { run } from '../utils.ts'
 import * as semver from 'semver/mod.ts'
-import { join } from 'std/path/mod.ts'
+import { join, toFileUrl } from 'std/path/mod.ts'
 import { exists } from 'std/fs/exists.ts'
 
 export const releaseCommand = new Command()
@@ -87,7 +87,10 @@ async function getVersion() {
   }
 
   try {
-    const res = await import(versionFile)
+    const fileUrl = toFileUrl(versionFile).toString()
+
+    const res = await import(fileUrl)
+
     return res.version || '0.0.0'
   } catch (_error) {
     return '0.0.0'
