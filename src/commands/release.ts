@@ -33,7 +33,7 @@ export const releaseCommand = new Command()
 
     // commit
     await run('git', 'commit', '-m', `chore: release ${releaseVersion}`)
-    await run('git', 'tag', `v${releaseVersion}`)
+    await run('git', 'tag', `${releaseVersion}`)
 
     // push
     await run('git', 'push')

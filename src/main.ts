@@ -7,8 +7,6 @@ import { releaseCommand } from './commands/release.ts'
 import { confCommand } from './commands/conf.ts'
 import { nrmCommand } from './commands/nrm.ts'
 import { runCommand } from './commands/run.ts'
-import { gitCommand } from './commands/git.ts'
-import { codeCommand } from './commands/code.ts'
 import { debug } from './debug.ts'
 import { xmCommander } from './commands/deps/mod.ts'
 import { npmCommand } from './commands/npm.ts'
@@ -49,12 +47,6 @@ x.command('nrm', nrmCommand)
 
 // xr
 x.command('run', runCommand)
-
-// git
-x.command('git', gitCommand)
-
-// code
-x.command('code', codeCommand)
 
 // xm
 x.command('deps', xmCommander)
