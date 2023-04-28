@@ -2,7 +2,8 @@ import { Command, HelpCommand } from 'cliffy/command/mod.ts'
 import { Select } from 'cliffy/prompt/select.ts'
 import { run } from '../utils.ts'
 import * as semver from 'semver/mod.ts'
-import { version } from '../../version.ts'
+import { join } from 'std/path/mod.ts'
+import { exists } from 'std/fs/exists.ts'
 
 export const releaseCommand = new Command()
   .hidden()
@@ -18,6 +19,8 @@ export const releaseCommand = new Command()
       : opt.patch
       ? 'patch'
       : undefined
+
+    const version = await getVersion()
 
     const releaseVersion = await getNextVersion(version, nextType)
 
@@ -74,4 +77,19 @@ async function writeVersionFile(releaseVersion: string) {
 export const version = '${releaseVersion}'
 `,
   )
+}
+
+async function getVersion() {
+  const versionFile = join(Deno.cwd(), 'version.ts')
+
+  if (!(await exists(versionFile))) {
+    return '0.0.0'
+  }
+
+  try {
+    const res = await import(versionFile)
+    return res.version || '0.0.0'
+  } catch (_error) {
+    return '0.0.0'
+  }
 }
