@@ -50,7 +50,6 @@ export async function runNpm(action: NpmActionCommand, ...params: string[]) {
 
 export async function detectNpmCommand(cwd = Deno.cwd()): Promise<NpmCommand> {
   const pnpmLockFile = join(cwd, 'pnpm-lock.yaml')
-
   if (await exists(pnpmLockFile)) {
     return 'pnpm'
   }
@@ -60,7 +59,12 @@ export async function detectNpmCommand(cwd = Deno.cwd()): Promise<NpmCommand> {
     return 'yarn'
   }
 
-  return 'npm'
+  const jsonLockFile = join(cwd, 'package-lock.json')
+  if (await exists(jsonLockFile)) {
+    return 'npm'
+  }
+
+  return 'pnpm'
 }
 
 export async function getPkgJson(
