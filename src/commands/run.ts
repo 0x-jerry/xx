@@ -1,9 +1,10 @@
 import { join, resolve } from 'path'
 import { exec } from '../utils.ts'
-import { red, cyan } from 'picocolors'
+import pc from 'picocolors'
 import jsonc from 'jsonc-parser'
 import { readFile, readdir } from 'fs/promises'
 import { statSync } from 'fs'
+const { red, cyan } = pc
 
 export async function runScript(command: string, params: string[] = []) {
   const [scriptExecuteContent, allScripts] = await getScriptContent(command)
