@@ -1,0 +1,24 @@
+{
+  "name": "x",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/0x-jerry/x.git",
+  "author": "Jerry Wang <x.jerry.wang@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "xr": "dist/xr.js",
+    "xn": "dist/xn.js"
+  },
+  "scripts": {
+    "dev:xr": "tsx src/xr.ts",
+    "dev:xn": "tsx src/xr.ts"
+  },
+  "dependencies": {
+    "@0x-jerry/silver": "^0.1.0",
+    "@0x-jerry/utils": "^1.18.0"
+  },
+  "devDependencies": {
+    "tsup": "^7.1.0",
+    "tsx": "^3.12.7"
+  }
+}
