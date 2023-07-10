@@ -1,5 +1,5 @@
 import { sliver, type ActionParsedArgs } from '@0x-jerry/silver'
-import { runNpm } from './npm'
+import { runNpm } from './commands/npm'
 
 sliver`
 @help @autocompletion

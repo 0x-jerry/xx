@@ -6,14 +6,17 @@ settings:
 
 dependencies:
   '@0x-jerry/silver':
-    specifier: ^0.1.0
-    version: 0.1.0
+    specifier: ^0.1.1
+    version: 0.1.1
   '@0x-jerry/utils':
     specifier: ^1.18.0
     version: 1.18.0
   execa:
     specifier: ^7.1.1
     version: 7.1.1
+  jsonc-parser:
+    specifier: ^3.2.0
+    version: 3.2.0
   picocolors:
     specifier: ^1.0.0
     version: 1.0.0
@@ -31,8 +34,8 @@ devDependencies:
 
 packages:
 
-  /@0x-jerry/silver@0.1.0:
-    resolution: {integrity: sha512-bE4yfF1KiLKn7rEaOlHGeBtjP5a5Kyc95PRQHe1t1fsq+RFltEos+sOXvCKn5Rv9vQkWGcxOPA2MV0AIQOd4/A==}
+  /@0x-jerry/silver@0.1.1:
+    resolution: {integrity: sha512-NIAT5D1yco7fR940ZzF4jClsZHZkDKYul6Og5o09nQlJxzSSbt995B5ZOYA6JfSvITH9/x99JTlIzKBnWVUY/w==}
     engines: {node: '>= 18'}
     dependencies:
       '@0x-jerry/utils': 1.18.0
@@ -869,6 +872,10 @@ packages:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
     dev: true
+
+  /jsonc-parser@3.2.0:
+    resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
+    dev: false
 
   /lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}

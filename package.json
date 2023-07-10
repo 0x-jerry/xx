@@ -1,5 +1,5 @@
 {
-  "name": "x",
+  "name": "@jerry/x",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/0x-jerry/x.git",
@@ -14,9 +14,10 @@
     "dev:xn": "tsx src/xn.ts"
   },
   "dependencies": {
-    "@0x-jerry/silver": "^0.1.0",
+    "@0x-jerry/silver": "^0.1.1",
     "@0x-jerry/utils": "^1.18.0",
     "execa": "^7.1.1",
+    "jsonc-parser": "^3.2.0",
     "picocolors": "^1.0.0"
   },
   "devDependencies": {

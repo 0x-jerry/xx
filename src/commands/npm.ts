@@ -1,6 +1,6 @@
 import { join } from 'path'
 import { yellow } from 'picocolors'
-import { exec, exists } from './utils'
+import { exec, exists } from '../utils'
 import { readFile } from 'fs/promises'
 
 export type NpmCommand = 'npm' | 'yarn' | 'pnpm'
