@@ -9,7 +9,12 @@ export async function run(
 ) {
   console.log(pc.dim('$'), pc.dim(cmd))
 
-  await execa('sh', ['-c', cmd], { stdio: 'inherit', env })
+  try {
+    await execa('sh', ['-c', cmd], { stdio: 'inherit', env })
+  } catch (error) {
+    // ignore error and exist
+    process.exit(1)
+  }
 }
 
 export async function exec(
