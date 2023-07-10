@@ -1,17 +1,31 @@
 {
-  "name": "@jerry/x",
+  "name": "@0x-jerry/x",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/0x-jerry/x.git",
   "author": "Jerry Wang <x.jerry.wang@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "bin": {
     "xr": "dist/xr.js",
     "xn": "dist/xn.js"
   },
   "scripts": {
+    "build": "tsup",
     "dev:xr": "tsx src/xr.ts",
-    "dev:xn": "tsx src/xn.ts"
+    "dev:xn": "tsx src/xn.ts",
+    "release": "x-release"
+  },
+  "tsup": {
+    "entry": [
+      "src/xr.ts",
+      "src/xn.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "dts": true,
+    "clean": true
   },
   "dependencies": {
     "@0x-jerry/silver": "^0.1.1",
@@ -21,8 +35,10 @@
     "picocolors": "^1.0.0"
   },
   "devDependencies": {
+    "@0x-jerry/x-release": "^0.3.8",
     "@types/node": "^20.4.1",
     "tsup": "^7.1.0",
-    "tsx": "^3.12.7"
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
   }
 }
