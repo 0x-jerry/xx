@@ -11,13 +11,16 @@
   },
   "scripts": {
     "dev:xr": "tsx src/xr.ts",
-    "dev:xn": "tsx src/xr.ts"
+    "dev:xn": "tsx src/xn.ts"
   },
   "dependencies": {
     "@0x-jerry/silver": "^0.1.0",
-    "@0x-jerry/utils": "^1.18.0"
+    "@0x-jerry/utils": "^1.18.0",
+    "execa": "^7.1.1",
+    "picocolors": "^1.0.0"
   },
   "devDependencies": {
+    "@types/node": "^20.4.1",
     "tsup": "^7.1.0",
     "tsx": "^3.12.7"
   }

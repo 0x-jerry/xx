@@ -1,23 +1,37 @@
-#!/usr/bin/env tsx
-
 import { sliver, type ActionParsedArgs } from '@0x-jerry/silver'
+import { runNpm } from './npm'
 
 sliver`
 @help @autocompletion
 
-xn [module], install npm package quickly. ${installAction}
+xn, install npm package quickly. ${defaultAction}
 
-i [module], install npm package quickly. ${installAction}
+i/install [module] #stopEarly, install npm package quickly. ${installAction}
 
-up #stopEarly, upgrade npm packages. ${upgradeAction}
+up/upgrade #stopEarly, upgrade npm packages. ${upgradeAction}
 `
 
-function installAction([pkgName]: string[], opt: ActionParsedArgs) {
-  if (pkgName) {
-    //
-  }
+async function defaultAction() {
+  await runNpm('install')
 }
 
-function upgradeAction(_: string[], opt: ActionParsedArgs) {
-  //
+async function installAction(_: string[], opt: ActionParsedArgs) {
+  const installOnly = !opt._.length
+
+  if (installOnly) {
+    await runNpm('install')
+    return
+  }
+
+  await runNpm('add', ...opt._)
+}
+
+async function upgradeAction(_: string[], opt: ActionParsedArgs) {
+  const params = opt._
+
+  if (opt.L) {
+    params.push('-L')
+  }
+
+  await runNpm('upgrade', ...params)
 }
