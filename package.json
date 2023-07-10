@@ -6,6 +6,15 @@
   "author": "Jerry Wang <x.jerry.wang@gmail.com>",
   "license": "MIT",
   "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org",
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts"
+  },
+  "files": [
+    "dist"
+  ],
   "bin": {
     "xr": "dist/xr.js",
     "xn": "dist/xn.js"
