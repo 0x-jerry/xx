@@ -5,9 +5,7 @@ Some useful command for myself.
 ## Install
 
 ```sh
-deno install -r -Af --import-map https://raw.githubusercontent.com/0x-jerry/x/main/import_map.json https://raw.githubusercontent.com/0x-jerry/x/main/x.ts
-deno install -r -Af --import-map https://raw.githubusercontent.com/0x-jerry/x/main/import_map.json https://raw.githubusercontent.com/0x-jerry/x/main/xr.ts
-deno install -r -Af --import-map https://raw.githubusercontent.com/0x-jerry/x/main/import_map.json https://raw.githubusercontent.com/0x-jerry/x/main/xn.ts
+npm i -g @0x-jerry/x
 ```
 
 ## Command Completions
@@ -15,7 +13,6 @@ deno install -r -Af --import-map https://raw.githubusercontent.com/0x-jerry/x/ma
 Add this code to `~/.zshrc`
 
 ```zsh
-source <(x completions zsh)
-source <(xr completions zsh)
-source <(xn completions zsh)
+source <(xr completions)
+source <(xn completions)
 ```
