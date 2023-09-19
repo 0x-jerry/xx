@@ -13,6 +13,7 @@ npm i -g @0x-jerry/x
 Add this code to `~/.zshrc`
 
 ```zsh
+source <(x completions)
 source <(xr completions)
 source <(xn completions)
 ```
