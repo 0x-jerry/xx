@@ -2,6 +2,7 @@ import { execa } from 'execa'
 import { type PathLike } from 'fs'
 import { stat } from 'fs/promises'
 import pc from 'picocolors'
+import os from 'os'
 
 export async function run(
   cmd: string,
@@ -10,7 +11,14 @@ export async function run(
   console.log(pc.dim('$'), pc.dim(cmd))
 
   try {
-    await execa('sh', ['-c', cmd], { stdio: 'inherit', env })
+    if (os.platform() === 'win32') {
+      await execa('powershell', ['Invoke-Expression', JSON.stringify(cmd)], {
+        stdio: 'inherit',
+        env,
+      })
+    } else {
+      await execa('sh', ['-c', cmd], { stdio: 'inherit', env })
+    }
   } catch (error) {
     // ignore error and exist
     process.exit(1)
