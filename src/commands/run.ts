@@ -4,6 +4,8 @@ import pc from 'picocolors'
 import jsonc from 'jsonc-parser'
 import { readFile, readdir } from 'fs/promises'
 import { statSync } from 'fs'
+import os from 'os'
+
 const { red, cyan } = pc
 
 export async function runScript(command: string, params: string[] = []) {
@@ -42,9 +44,11 @@ function makeEnv() {
     dir = resolve(dir, '..')
   } while (dir !== resolve(dir, '..'))
 
-  const PATH = envPaths.join(':')
+  const separator = os.platform() === 'win32' ? ';' : ':'
 
-  env.PATH = [process.env.PATH || '', PATH].filter(Boolean).join(':')
+  const PATH = envPaths.join(separator)
+
+  env.PATH = [process.env.PATH || '', PATH].filter(Boolean).join(separator)
 
   return env
 }
