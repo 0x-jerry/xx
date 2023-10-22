@@ -12,7 +12,10 @@ export async function run(
 
   try {
     if (os.platform() === 'win32') {
-      await execa('powershell', ['Invoke-Expression', JSON.stringify(cmd)], {
+      // fix escape double quote
+      const finalCmd = JSON.stringify(cmd).replaceAll(`\\"`, '`"')
+
+      await execa('powershell', ['Invoke-Expression', finalCmd], {
         stdio: 'inherit',
         env,
       })
