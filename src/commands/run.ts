@@ -1,10 +1,9 @@
-import { join, resolve } from 'path'
+import path, { join, resolve } from 'path'
 import { exec } from '../utils.ts'
 import pc from 'picocolors'
 import jsonc from 'jsonc-parser'
 import { readFile, readdir } from 'fs/promises'
 import { statSync } from 'fs'
-import os from 'os'
 
 const { red, cyan } = pc
 
@@ -44,7 +43,7 @@ function makeEnv() {
     dir = resolve(dir, '..')
   } while (dir !== resolve(dir, '..'))
 
-  const separator = os.platform() === 'win32' ? ';' : ':'
+  const separator = path.delimiter
 
   const PATH = envPaths.join(separator)
 
