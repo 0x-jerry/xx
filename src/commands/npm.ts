@@ -4,7 +4,7 @@ import { exec, exists } from '../utils'
 import { readFile } from 'fs/promises'
 const { yellow } = pc
 
-export type NpmCommand = 'npm' | 'yarn' | 'pnpm'
+export type NpmCommand = 'npm' | 'yarn' | 'pnpm' | 'bun'
 
 export type NpmActionCommand = 'install' | 'add' | 'upgrade'
 
@@ -13,17 +13,20 @@ const npmCommandMapper: Record<NpmActionCommand, Record<NpmCommand, string>> = {
     npm: 'i',
     yarn: 'install',
     pnpm: 'i',
+    bun: 'i'
   },
   add: {
     npm: 'i',
     yarn: 'add',
     pnpm: 'i',
+    bun: 'add'
   },
   upgrade: {
     npm: 'up',
     yarn: 'upgrade',
     pnpm: 'up',
-  },
+    bun: 'update'
+  }
 }
 
 /**
@@ -52,6 +55,11 @@ export async function runNpm(action: NpmActionCommand, ...params: string[]) {
 export async function detectNpmCommand(
   cwd = process.cwd(),
 ): Promise<NpmCommand> {
+  const bunLockFile = join(cwd, 'bun.lockb')
+  if (await exists(bunLockFile)) {
+    return 'bun'
+  }
+
   const pnpmLockFile = join(cwd, 'pnpm-lock.yaml')
   if (await exists(pnpmLockFile)) {
     return 'pnpm'
