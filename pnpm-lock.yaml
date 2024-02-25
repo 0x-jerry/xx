@@ -45,7 +45,7 @@ devDependencies:
     version: 0.4.0
   '@types/decompress':
     specifier: ^4.2.4
-    version: 4.2.4
+    version: 4.2.7
   '@types/fs-extra':
     specifier: ^11.0.2
     version: 11.0.2
@@ -701,8 +701,8 @@ packages:
       defer-to-connect: 2.0.1
     dev: false
 
-  /@types/decompress@4.2.4:
-    resolution: {integrity: sha512-/C8kTMRTNiNuWGl5nEyKbPiMv6HA+0RbEXzFhFBEzASM6+oa4tJro9b8nj7eRlOFfuLdzUU+DS/GPDlvvzMOhA==}
+  /@types/decompress@4.2.7:
+    resolution: {integrity: sha512-9z+8yjKr5Wn73Pt17/ldnmQToaFHZxK0N1GHysuk/JIPT8RIdQeoInM01wWPgypRcvb6VH1drjuFpQ4zmY437g==}
     dependencies:
       '@types/node': 20.6.2
     dev: true
