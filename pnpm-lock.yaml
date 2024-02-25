@@ -51,7 +51,7 @@ devDependencies:
     version: 11.0.2
   '@types/global-agent':
     specifier: ^2.1.1
-    version: 2.1.1
+    version: 2.1.3
   '@types/node':
     specifier: ^20.6.2
     version: 20.6.2
@@ -678,8 +678,8 @@ packages:
       '@types/node': 20.6.2
     dev: true
 
-  /@types/global-agent@2.1.1:
-    resolution: {integrity: sha512-sVox8Phk1UKgP6LQPAdeRxfww6vHKt7Bf59dXzYLsQBUEMEn8S10a+ESp/yO0i4fJ3WS4+CIuz42hgJcuA+3mA==}
+  /@types/global-agent@2.1.3:
+    resolution: {integrity: sha512-rGtZZcgZcKWuKNTkGBGsqyOQ7Nn2MjXh4+xeZbf+5b5KMUx8H1rTqLRackxos7pUlreszbYjQcop5JvqCnZlLw==}
     dev: true
 
   /@types/http-cache-semantics@4.0.2:
