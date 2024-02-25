@@ -10,7 +10,7 @@ dependencies:
     version: 0.1.5
   '@0x-jerry/utils':
     specifier: ^2.0.0
-    version: 2.0.0
+    version: 2.1.1
   decompress:
     specifier: ^4.2.1
     version: 4.2.1
@@ -78,16 +78,16 @@ packages:
     resolution: {integrity: sha512-1i/2s+2+4Syf4mpqn0Uy6BtYWHCe5sodsKHobkcTpK2BZci+rrSQir8bPVr2o2zICLhnPFuTzmbnw/b+YMSpIA==}
     engines: {node: '>= 18'}
     dependencies:
-      '@0x-jerry/utils': 2.0.0
+      '@0x-jerry/utils': 2.1.1
       lodash-es: 4.17.21
       minimist: 1.2.8
     dev: false
 
-  /@0x-jerry/utils@2.0.0:
-    resolution: {integrity: sha512-mdpbw3E6kQ8E2PZVfPREdnlA7m3mEsycXYPHvPErrp5lZduqa9ATvqnvInAYUj3u8d9q2Gk2825besoICmyvpQ==}
+  /@0x-jerry/utils@2.1.1:
+    resolution: {integrity: sha512-VNF9b4CFEW+I+hqmA/RKf7KrV9QXe4GCQS958iew0lvTqslaArYKk1gZvwj1zGCUwo6LBXCYEKjzPf5e/PEPBQ==}
     dependencies:
-      fflate: 0.8.1
-      nanoid: 4.0.2
+      fflate: 0.8.2
+      nanoid: 5.0.6
     dev: false
 
   /@0x-jerry/x-release@0.4.0:
@@ -991,8 +991,8 @@ packages:
       pend: 1.2.0
     dev: false
 
-  /fflate@0.8.1:
-    resolution: {integrity: sha512-/exOvEuc+/iaUm105QIiOt4LpBdMTWsXxqR0HDF35vx3fmaKzw7354gTilCh5rkzEt8WYyG//ku3h3nRmd7CHQ==}
+  /fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
     dev: false
 
   /file-type@3.9.0:
@@ -1480,9 +1480,9 @@ packages:
       thenify-all: 1.6.0
     dev: true
 
-  /nanoid@4.0.2:
-    resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
-    engines: {node: ^14 || ^16 || >=18}
+  /nanoid@5.0.6:
+    resolution: {integrity: sha512-rRq0eMHoGZxlvaFOUdK1Ev83Bd1IgzzR+WJ3IbDJ7QOSdAxYjlurSPqFs9s4lJg29RT6nPwizFtJhQS6V5xgiA==}
+    engines: {node: ^18 || >=20}
     hasBin: true
     dev: false
 
