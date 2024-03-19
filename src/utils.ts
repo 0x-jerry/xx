@@ -15,7 +15,7 @@ export async function run(
       // fix escape double quote
       const finalCmd = JSON.stringify(cmd).replaceAll(`\\"`, '`"')
 
-      await execa('powershell', ['Invoke-Expression', finalCmd], {
+      await execa('pwsh', ['Invoke-Expression', finalCmd], {
         stdio: 'inherit',
         env,
       })
