@@ -25,6 +25,7 @@
     "dev:xr": "tsx src/xr.ts",
     "dev:xn": "tsx src/xn.ts",
     "dev:x": "tsx src/x.ts",
+    "prepublishOnly": "npm run build",
     "release": "x-release"
   },
   "tsup": {
