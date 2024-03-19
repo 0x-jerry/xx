@@ -15,8 +15,9 @@ export async function run(
       // fix escape double quote
       const finalCmd = JSON.stringify(cmd).replaceAll(`\\"`, '`"')
 
-      await execa('pwsh', ['Invoke-Expression', finalCmd], {
+      await execa('pwsh', ['-c', finalCmd], {
         stdio: 'inherit',
+        shell: true,
         env,
       })
     } else {
