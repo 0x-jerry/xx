@@ -2,7 +2,6 @@ import { execa } from 'execa'
 import { type PathLike } from 'fs'
 import { stat } from 'fs/promises'
 import pc from 'picocolors'
-import os from 'os'
 
 export async function run(
   cmd: string,
@@ -10,23 +9,37 @@ export async function run(
 ) {
   console.log(pc.dim('$'), pc.dim(cmd))
 
-  try {
-    if (os.platform() === 'win32') {
-      // fix escape double quote
-      const finalCmd = JSON.stringify(cmd).replaceAll(`\\"`, '`"')
+  const commands = cmd
+    .split('&&')
+    .map((n) => n.trim())
+    .filter(Boolean)
 
-      await execa('pwsh', ['-c', finalCmd], {
-        stdio: 'inherit',
-        shell: true,
-        env,
-      })
-    } else {
-      await execa('sh', ['-c', cmd], { stdio: 'inherit', env })
-    }
-  } catch (error) {
-    // ignore error and exist
-    process.exit(1)
+  for (const cmd of commands) {
+    const [_cmd, ...args] = _parseArgs(cmd)
+    await execa(_cmd, args, { stdio: 'inherit', env })
   }
+}
+
+export function _parseArgs(cmd: string) {
+  const args: string[] = []
+
+  const _cmd = cmd.replaceAll(/(['"]).+?\1/g, (n) => {
+    const idx = args.length
+    args.push(n.slice(1, -1))
+    return '__$' + idx
+  })
+
+  const normalized = _cmd.split(/\s+/).map((part) => {
+    part = part.trim()
+
+    if (part.startsWith('__$')) {
+      return args[+part.slice(3)]
+    } else {
+      return part
+    }
+  })
+
+  return normalized
 }
 
 export async function exec(
