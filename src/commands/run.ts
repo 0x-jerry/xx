@@ -3,7 +3,7 @@ import { exec } from '../utils.ts'
 import pc from 'picocolors'
 import jsonc from 'jsonc-parser'
 import { readFile, readdir } from 'fs/promises'
-import { statSync } from 'fs'
+import { existsSync } from 'fs'
 
 const { red, cyan } = pc
 
@@ -27,27 +27,20 @@ function makeEnv() {
   const cwd = process.cwd()
   const env = process.env
 
-  const envPaths: string[] = []
+  const envPaths: string[] = process.env.PATH?.split(path.delimiter) || []
 
   let dir = cwd
   do {
-    const PATH = join(dir, 'node_modules', '.bin')
+    const binPath = join(dir, 'node_modules', '.bin')
 
-    try {
-      statSync(PATH)
-      envPaths.push(PATH)
-    } catch (_error) {
-      // ignore
+    if (existsSync(binPath)) {
+      envPaths.push(binPath)
     }
 
     dir = resolve(dir, '..')
   } while (dir !== resolve(dir, '..'))
 
-  const separator = path.delimiter
-
-  const PATH = envPaths.join(separator)
-
-  env.PATH = [process.env.PATH || '', PATH].filter(Boolean).join(separator)
+  env.PATH = envPaths.join(path.delimiter)
 
   return env
 }
