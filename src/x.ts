@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { sliver, type ActionParsedArgs } from '@0x-jerry/silver'
 import { downloadGitRepo } from './commands/downloadGitRepo'
 import { bootstrap } from 'global-agent'
