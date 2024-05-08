@@ -13,20 +13,20 @@ const npmCommandMapper: Record<NpmActionCommand, Record<NpmCommand, string>> = {
     npm: 'i',
     yarn: 'install',
     pnpm: 'i',
-    bun: 'i'
+    bun: 'i',
   },
   add: {
     npm: 'i',
     yarn: 'add',
     pnpm: 'i',
-    bun: 'add'
+    bun: 'add',
   },
   upgrade: {
     npm: 'up',
     yarn: 'upgrade',
     pnpm: 'up',
-    bun: 'update'
-  }
+    bun: 'update',
+  },
 }
 
 /**
@@ -56,22 +56,22 @@ export async function detectNpmCommand(
   cwd = process.cwd(),
 ): Promise<NpmCommand> {
   const bunLockFile = join(cwd, 'bun.lockb')
-  if (await exists(bunLockFile)) {
+  if (exists(bunLockFile)) {
     return 'bun'
   }
 
   const pnpmLockFile = join(cwd, 'pnpm-lock.yaml')
-  if (await exists(pnpmLockFile)) {
+  if (exists(pnpmLockFile)) {
     return 'pnpm'
   }
 
   const yarnLockFile = join(cwd, 'yarn.lock')
-  if (await exists(yarnLockFile)) {
+  if (exists(yarnLockFile)) {
     return 'yarn'
   }
 
   const jsonLockFile = join(cwd, 'package-lock.json')
-  if (await exists(jsonLockFile)) {
+  if (exists(jsonLockFile)) {
     return 'npm'
   }
 

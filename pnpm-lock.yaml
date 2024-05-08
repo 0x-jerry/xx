@@ -12,8 +12,8 @@ importers:
         specifier: ^0.1.5
         version: 0.1.5
       '@0x-jerry/utils':
-        specifier: ^2.1.2
-        version: 2.1.2
+        specifier: ^2.2.1
+        version: 2.2.1
       decompress:
         specifier: ^4.2.1
         version: 4.2.1
@@ -62,10 +62,10 @@ importers:
         version: 2.4.9
       '@vitest/coverage-v8':
         specifier: ^1.6.0
-        version: 1.6.0(vitest@1.6.0)
+        version: 1.6.0(vitest@1.6.0(@types/node@20.12.10))
       tsup:
         specifier: ^8.0.2
-        version: 8.0.2(typescript@5.4.5)
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
       tsx:
         specifier: ^4.9.3
         version: 4.9.3
@@ -85,8 +85,8 @@ packages:
     resolution: {integrity: sha512-1i/2s+2+4Syf4mpqn0Uy6BtYWHCe5sodsKHobkcTpK2BZci+rrSQir8bPVr2o2zICLhnPFuTzmbnw/b+YMSpIA==}
     engines: {node: '>= 18'}
 
-  '@0x-jerry/utils@2.1.2':
-    resolution: {integrity: sha512-Gd2bA/552B5FfcRCW0cd4skTtO61Abovl2phLgeGbmD60jgm6LuwwlpwdTEibtBzH24tpVyBfRAyhK71DZ02ig==}
+  '@0x-jerry/utils@2.2.1':
+    resolution: {integrity: sha512-8ThNrT7mTpUS3LMxggTcPYpuvwpNw/az8ngcc3ZXoireBAbQeTzexZyd7VpBOHsqNQcXUOGtO2FU0IQULzsgfg==}
 
   '@0x-jerry/x-release@1.0.1':
     resolution: {integrity: sha512-sEl/cT/DWkhWBxPL0ftZgvaqBSpcrXnoQ/ZMXtCzoUx+WVSVPUw71psQcEc0p7PWWZTMinl6VLu3pMBmRbBrVA==}
@@ -1755,14 +1755,15 @@ snapshots:
 
   '@0x-jerry/silver@0.1.5':
     dependencies:
-      '@0x-jerry/utils': 2.1.2
+      '@0x-jerry/utils': 2.2.1
       lodash-es: 4.17.21
       minimist: 1.2.8
 
-  '@0x-jerry/utils@2.1.2':
+  '@0x-jerry/utils@2.2.1':
     dependencies:
       fflate: 0.8.2
       nanoid: 5.0.7
+      picocolors: 1.0.0
 
   '@0x-jerry/x-release@1.0.1':
     dependencies:
@@ -2069,7 +2070,7 @@ snapshots:
       '@types/node': 20.12.10
       kleur: 3.0.3
 
-  '@vitest/coverage-v8@1.6.0(vitest@1.6.0)':
+  '@vitest/coverage-v8@1.6.0(vitest@1.6.0(@types/node@20.12.10))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -2886,10 +2887,12 @@ snapshots:
       mlly: 1.7.0
       pathe: 1.1.2
 
-  postcss-load-config@4.0.2:
+  postcss-load-config@4.0.2(postcss@8.4.38):
     dependencies:
       lilconfig: 3.1.1
       yaml: 2.4.2
+    optionalDependencies:
+      postcss: 8.4.38
 
   postcss@8.4.38:
     dependencies:
@@ -3136,7 +3139,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  tsup@8.0.2(typescript@5.4.5):
+  tsup@8.0.2(postcss@8.4.38)(typescript@5.4.5):
     dependencies:
       bundle-require: 4.1.0(esbuild@0.19.12)
       cac: 6.7.14
@@ -3146,12 +3149,14 @@ snapshots:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 4.0.2
+      postcss-load-config: 4.0.2(postcss@8.4.38)
       resolve-from: 5.0.0
       rollup: 4.17.2
       source-map: 0.8.0-beta.0
       sucrase: 3.35.0
       tree-kill: 1.2.2
+    optionalDependencies:
+      postcss: 8.4.38
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -3208,16 +3213,15 @@ snapshots:
 
   vite@5.2.11(@types/node@20.12.10):
     dependencies:
-      '@types/node': 20.12.10
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.17.2
     optionalDependencies:
+      '@types/node': 20.12.10
       fsevents: 2.3.3
 
   vitest@1.6.0(@types/node@20.12.10):
     dependencies:
-      '@types/node': 20.12.10
       '@vitest/expect': 1.6.0
       '@vitest/runner': 1.6.0
       '@vitest/snapshot': 1.6.0
@@ -3238,6 +3242,8 @@ snapshots:
       vite: 5.2.11(@types/node@20.12.10)
       vite-node: 1.6.0(@types/node@20.12.10)
       why-is-node-running: 2.2.2
+    optionalDependencies:
+      '@types/node': 20.12.10
     transitivePeerDependencies:
       - less
       - lightningcss
