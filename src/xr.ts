@@ -20,6 +20,7 @@ async function defaultAction(_: string[], arg: ActionParsedArgs) {
   try {
     await runScript(command, params)
   } catch (error) {
-    console.error(error)
+    // ignore error
+    process.exit(1)
   }
 }
