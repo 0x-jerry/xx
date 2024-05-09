@@ -17,5 +17,9 @@ ins.type('command', async () => {
 async function defaultAction(_: string[], arg: ActionParsedArgs) {
   const [command, ...params] = arg._
 
-  await runScript(command, params)
+  try {
+    await runScript(command, params)
+  } catch (error) {
+    console.error(error)
+  }
 }
