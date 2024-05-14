@@ -31,7 +31,7 @@ dependencies:
     version: 8.0.1
   picocolors:
     specifier: ^1.0.0
-    version: 1.0.0
+    version: 1.0.1
   prompts:
     specifier: ^2.4.2
     version: 2.4.2
@@ -91,7 +91,7 @@ packages:
     dependencies:
       fflate: 0.8.2
       nanoid: 5.0.7
-      picocolors: 1.0.0
+      picocolors: 1.0.1
 
   /@0x-jerry/x-release@2.0.1:
     resolution: {integrity: sha512-C+LxWBHirPpHLR4rAGOEUGN3Sicl9K55aEVfUQn0rDf2xOoM4iwFsq3uErrYYPgqmh6+krIgi/bh4tMSEMVPqQ==}
@@ -102,7 +102,7 @@ packages:
       cac: 6.7.14
       debug: 4.3.4
       execa: 9.0.0
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       prompts: 2.4.2
       semver: 7.6.2
       unconfig: 0.3.13
@@ -860,7 +860,7 @@ packages:
       istanbul-reports: 3.1.7
       magic-string: 0.30.10
       magicast: 0.3.4
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       std-env: 3.7.0
       strip-literal: 2.1.0
       test-exclude: 6.0.0
@@ -2224,8 +2224,8 @@ packages:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
     dev: false
 
-  /picocolors@1.0.0:
-    resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
+  /picocolors@1.0.1:
+    resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
 
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
@@ -2288,7 +2288,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       source-map-js: 1.2.0
     dev: true
 
@@ -2809,7 +2809,7 @@ packages:
       cac: 6.7.14
       debug: 4.3.4
       pathe: 1.1.2
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       vite: 5.2.11(@types/node@20.12.11)
     transitivePeerDependencies:
       - '@types/node'
@@ -2896,7 +2896,7 @@ packages:
       local-pkg: 0.5.0
       magic-string: 0.30.10
       pathe: 1.1.2
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       std-env: 3.7.0
       strip-literal: 2.1.0
       tinybench: 2.8.0
