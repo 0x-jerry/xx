@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@0x-jerry/silver':
     specifier: ^0.1.7
-    version: 0.1.7
+    version: 0.1.8
   '@0x-jerry/utils':
     specifier: ^2.2.7
     version: 2.2.7
@@ -77,8 +77,8 @@ packages:
     resolution: {integrity: sha512-OsG9WZfCDzLaIC5t7HNHAYdpvZEf5efs/+fLEXsbOQr3IdZyMuWA27utAOsrNwTfl1BCgr6+r048ZyMd9YE72Q==}
     dev: true
 
-  /@0x-jerry/silver@0.1.7:
-    resolution: {integrity: sha512-movKHbCuPHQEc8y+9wjGmzwm3wRR1CtfkvFtty4xS23cFsck639ryCBxgOzfrXcGvkobDpS18H/zLrTwqiDZhg==}
+  /@0x-jerry/silver@0.1.8:
+    resolution: {integrity: sha512-9+BfA8wOofaXxv2yxKubgZfpfyCMVjLkHrweuYYEJY778lV/bAxQfSvKXmd2ITZJ/C9O8jBvh7IVgP/KGanZXg==}
     engines: {node: '>= 18'}
     dependencies:
       '@0x-jerry/utils': 2.2.7
