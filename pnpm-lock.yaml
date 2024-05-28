@@ -10,7 +10,7 @@ dependencies:
     version: 0.1.8
   '@0x-jerry/utils':
     specifier: ^2.2.7
-    version: 2.2.7
+    version: 2.3.0
   decompress:
     specifier: ^4.2.1
     version: 4.2.1
@@ -81,12 +81,12 @@ packages:
     resolution: {integrity: sha512-9+BfA8wOofaXxv2yxKubgZfpfyCMVjLkHrweuYYEJY778lV/bAxQfSvKXmd2ITZJ/C9O8jBvh7IVgP/KGanZXg==}
     engines: {node: '>= 18'}
     dependencies:
-      '@0x-jerry/utils': 2.2.7
+      '@0x-jerry/utils': 2.3.0
       minimist: 1.2.8
     dev: false
 
-  /@0x-jerry/utils@2.2.7:
-    resolution: {integrity: sha512-+qb/blJNlEdB1ce/0AJyG+YvZUyjScDnkQVIAJykXzVWrWxB4mdFFz2nA6OHqPySquUgrbtRc/DwAzAGw1Ii/Q==}
+  /@0x-jerry/utils@2.3.0:
+    resolution: {integrity: sha512-rHxU8lWGSpUS8n1uvqBeoiIPdMr7vMLPnFHGwl43ko+q1cUFkWBocuGJeLhAVCuA+t7e3ZaW1OVXN4T6dwAeRw==}
     dependencies:
       fflate: 0.8.2
       nanoid: 5.0.7
@@ -97,7 +97,7 @@ packages:
     hasBin: true
     dependencies:
       '@0x-jerry/load-pkg': 0.1.5
-      '@0x-jerry/utils': 2.2.7
+      '@0x-jerry/utils': 2.3.0
       cac: 6.7.14
       debug: 4.3.4
       picocolors: 1.0.1
