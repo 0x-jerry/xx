@@ -32,7 +32,10 @@ async function installAction(_: string[], opt: ActionParsedArgs) {
 
   // install typedef for packages
   if (opt.types) {
-    const typesPackages = packages.map((pkg) => getTypePackageName(pkg))
+    const typesPackages = packages
+      // ignore extra paramaters
+      .filter(n => n.startsWith('-'))
+      .map((pkg) => getTypePackageName(pkg))
     await runNpm('add', ...typesPackages, '-D')
   }
 }
