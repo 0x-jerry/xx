@@ -19,20 +19,20 @@ async function defaultAction() {
 }
 
 async function installAction(_: string[], opt: ActionParsedArgs) {
-  const packages = opt._
+  const parameters = opt._
 
-  const installOnly = !packages.length
+  const installOnly = !parameters.length
 
   if (installOnly) {
     await runNpm('install')
     return
   }
 
-  await runNpm('add', ...packages)
+  await runNpm('add', ...parameters)
 
   // install typedef for packages
   if (opt.types) {
-    const typesPackages = packages
+    const typesPackages = parameters
       // ignore extra paramaters
       .filter(n => n.startsWith('-'))
       .map((pkg) => getTypePackageName(pkg))
