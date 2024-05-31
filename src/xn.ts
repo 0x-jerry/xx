@@ -34,7 +34,7 @@ async function installAction(_: string[], opt: ActionParsedArgs) {
   if (opt.types) {
     const typesPackages = parameters
       // ignore extra parameters
-      .filter((n) => n.startsWith('-'))
+      .filter((n) => !n.startsWith('-'))
       .map((pkg) => getTypePackageName(pkg))
     await runNpm('add', ...typesPackages, '-D')
   }
