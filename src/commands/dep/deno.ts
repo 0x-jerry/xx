@@ -1,6 +1,6 @@
-import type { DependencyManager } from './dep/types'
+import type { DependencyManager } from './types'
 
-export class DepManager implements DependencyManager {
+export class DenoDependencyManager implements DependencyManager {
   install(option?: Record<string, string>): Promise<void> {
     throw new Error('Method not implemented.')
   }
