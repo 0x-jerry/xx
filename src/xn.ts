@@ -1,21 +1,23 @@
 #!/usr/bin/env node
 import { sliver, type ActionParsedArgs } from '@0x-jerry/silver'
-import { runNpm } from './commands/npm'
+import { runDepInstaller } from './commands/depManager'
 
 sliver`
 @help @autocompletion
 
-xn, install npm package quickly. ${defaultAction}
+xn, install dependency quickly, support node/deno/cargo. ${defaultAction}
 
-i/install [module] #stopEarly, install npm package quickly. ${installAction}
+i/install [...modules] #stopEarly, install dependencies. ${installAction}
 
--t --types @bool, install package's types too.
+-t --types @bool, install package's types too, only effect node project.
 
-up/upgrade #stopEarly, upgrade npm packages. ${upgradeAction}
+up/upgrade [...modules] #stopEarly, upgrade dependencies. ${upgradeAction}
+
+rm/remove <...modules> #stopEarly, remove dependencies. ${removeAction}
 `
 
 async function defaultAction() {
-  await runNpm('install')
+  await runDepInstaller('install')
 }
 
 async function installAction(_: string[], opt: ActionParsedArgs) {
@@ -24,11 +26,11 @@ async function installAction(_: string[], opt: ActionParsedArgs) {
   const installOnly = !parameters.length
 
   if (installOnly) {
-    await runNpm('install')
+    await runDepInstaller('install')
     return
   }
 
-  await runNpm('add', ...parameters)
+  await runDepInstaller('add', ...parameters)
 
   // install typedef for packages
   if (opt.types) {
@@ -36,7 +38,7 @@ async function installAction(_: string[], opt: ActionParsedArgs) {
       // ignore extra parameters
       .filter((n) => !n.startsWith('-'))
       .map((pkg) => getTypePackageName(pkg))
-    await runNpm('add', ...typesPackages, '-D')
+    await runDepInstaller('add', ...typesPackages, '-D')
   }
 }
 
@@ -63,9 +65,11 @@ export function getTypePackageName(pkg: string) {
 async function upgradeAction(_: string[], opt: ActionParsedArgs) {
   const params = opt._
 
-  if (opt.L) {
-    params.push('-L')
-  }
+  await runDepInstaller('upgrade', ...params)
+}
 
-  await runNpm('upgrade', ...params)
+async function removeAction(_: string[], opt: ActionParsedArgs) {
+  const params = opt._
+
+  await runDepInstaller('remove', ...params)
 }

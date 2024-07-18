@@ -4,28 +4,41 @@ import { exec, exists } from '../utils'
 import { readFile } from 'fs/promises'
 const { yellow } = pc
 
-export type NpmCommand = 'npm' | 'yarn' | 'pnpm' | 'bun'
+export type DepManagerCommand = 'npm' | 'yarn' | 'pnpm' | 'bun' | 'cargo'
 
-export type NpmActionCommand = 'install' | 'add' | 'upgrade'
+export type DepManagerActionCommand = 'install' | 'add' | 'upgrade' | 'remove'
 
-const npmCommandMapper: Record<NpmActionCommand, Record<NpmCommand, string>> = {
+const depInstallerCommandMapper: Record<
+  DepManagerActionCommand,
+  Record<DepManagerCommand, string>
+> = {
   install: {
     npm: 'i',
     yarn: 'install',
     pnpm: 'i',
     bun: 'i',
+    cargo: 'check',
   },
   add: {
     npm: 'i',
     yarn: 'add',
     pnpm: 'i',
     bun: 'add',
+    cargo: 'add',
+  },
+  remove: {
+    npm: 'uninstall',
+    yarn: 'remove',
+    pnpm: 'uninstall',
+    bun: 'remove',
+    cargo: 'remove',
   },
   upgrade: {
     npm: 'up',
     yarn: 'upgrade',
     pnpm: 'up',
     bun: 'update',
+    cargo: 'update',
   },
 }
 
@@ -35,7 +48,10 @@ const npmCommandMapper: Record<NpmActionCommand, Record<NpmCommand, string>> = {
  * ```
  * @param params
  */
-export async function runNpm(action: NpmActionCommand, ...params: string[]) {
+export async function runDepInstaller(
+  action: DepManagerActionCommand,
+  ...params: string[]
+) {
   if (!(await getPkgJson())) {
     console.log(
       yellow(
@@ -45,16 +61,16 @@ export async function runNpm(action: NpmActionCommand, ...params: string[]) {
     return
   }
 
-  const npmCommand = await detectNpmCommand()
+  const depInstallerCommand = await detectDepInstallerCommand()
 
-  const actionName = npmCommandMapper[action][npmCommand]
+  const actionName = depInstallerCommandMapper[action][depInstallerCommand]
 
-  await exec(npmCommand, [actionName, ...params])
+  await exec(depInstallerCommand, [actionName, ...params])
 }
 
-export async function detectNpmCommand(
+export async function detectDepInstallerCommand(
   cwd = process.cwd(),
-): Promise<NpmCommand> {
+): Promise<DepManagerCommand> {
   const bunLockFile = join(cwd, 'bun.lockb')
   if (exists(bunLockFile)) {
     return 'bun'
