@@ -1,4 +1,5 @@
 import path from 'path'
+import pc from 'picocolors'
 import { exec } from '../utils.ts'
 import type { TaskDetector } from './run/types.ts'
 import { NodeTaskDetecter } from './run/node.ts'
@@ -20,12 +21,19 @@ export async function runScript(command: string, params: string[] = []) {
       if (task) {
         const env = makeEnv((await taskDetector.binaryPaths?.(cwd)) || [])
         await exec(task, params, env)
-        break
+        return
       }
     }
   }
 
-  await exec(command, params, makeEnv([]))
+  const allScripts = await getAvailableCommands()
+
+  console.log(
+    pc.red('['),
+    pc.cyan(`${command}`),
+    pc.red('] not exists in the list: '),
+    allScripts.map((name) => pc.cyan(name)).join(', '),
+  )
 }
 
 function makeEnv(extraPaths: string[]) {
