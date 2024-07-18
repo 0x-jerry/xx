@@ -25,8 +25,8 @@
     "dev:xr": "tsx src/xr.ts",
     "dev:xn": "tsx src/xn.ts",
     "dev:x": "tsx src/x.ts",
-    "test": "vitest",
-    "ci:test": "vitest run",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "prepublishOnly": "npm run build",
     "release": "x-release"
   },
