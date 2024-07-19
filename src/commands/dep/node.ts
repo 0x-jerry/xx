@@ -20,7 +20,7 @@ export class NodeDependencyManager implements DependencyManager {
   ): Promise<void> {
     await runDepManagerCommand('add', ...modules)
 
-    if (option.type) {
+    if (option.types) {
       const typeModules = modules.map((pkg) => getTypePackageName(pkg))
       await runDepManagerCommand('add', ...typeModules, '-D')
     }
