@@ -1,52 +1,59 @@
-import { join } from 'path'
+import path, { join } from 'path'
 import pc from 'picocolors'
-import { exec, exists } from '../../utils'
+import { exec, exists, flagOptionToStringArray } from '../../utils'
 import { readFile } from 'fs/promises'
 import type { DependencyManager } from './types'
+import { pathExists } from 'fs-extra'
 
 export class NodeDependencyManager implements DependencyManager {
-  install(option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async check() {
+    return pathExists(path.join(process.cwd(), 'package.json'))
   }
 
-  add(modules: string[], option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async install(option?: Record<string, string>): Promise<void> {
+    await runDepManagerCommand('install')
   }
 
-  remove(modules: string[], option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async add(
+    modules: string[],
+    option: Record<string, string> = {},
+  ): Promise<void> {
+    await runDepManagerCommand('add', ...modules)
+
+    if (option.type) {
+      const typeModules = modules.map((pkg) => getTypePackageName(pkg))
+      await runDepManagerCommand('add', ...typeModules, '-D')
+    }
   }
 
-  upgrade(modules: string[], option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async remove(
+    modules: string[],
+    option: Record<string, string> = {},
+  ): Promise<void> {
+    await runDepManagerCommand(
+      'remove',
+      ...modules,
+      ...flagOptionToStringArray(option),
+    )
   }
-}
 
-/**
- *
- * @param pkg
- *
- * getPackageName('lodash@latest') => @types/lodash
- * getPackageName('@babel/core') => @types/babel__core
- *
- */
-export function getTypePackageName(pkg: string) {
-  const idx = pkg.lastIndexOf('@')
-  const name = idx > 0 ? pkg.slice(0, idx) : pkg
-
-  if (name.includes('@')) {
-    const [scope, pkgName] = name.split('/')
-    return `@types/${scope.slice(1)}__${pkgName}`
-  } else {
-    return `@types/${name}`
+  async upgrade(
+    modules: string[],
+    option: Record<string, string> = {},
+  ): Promise<void> {
+    await runDepManagerCommand(
+      'upgrade',
+      ...modules,
+      ...flagOptionToStringArray(option),
+    )
   }
 }
 
 const { yellow } = pc
 
-export type DepManagerCommand = 'npm' | 'yarn' | 'pnpm' | 'bun'
+type DepManagerCommand = 'npm' | 'yarn' | 'pnpm' | 'bun'
 
-export type DepManagerActionCommand = 'install' | 'add' | 'upgrade' | 'remove'
+type DepManagerActionCommand = 'install' | 'add' | 'upgrade' | 'remove'
 
 const depInstallerCommandMapper: Record<
   DepManagerActionCommand,
@@ -80,11 +87,12 @@ const depInstallerCommandMapper: Record<
 
 /**
  * ```ts
- * add('lodash@1', '-d')
+ * runDepManagerCommand('add', 'lodash@1', '-d')
+ * runDepManagerCommand('install')
  * ```
  * @param params
  */
-export async function runDepInstaller(
+async function runDepManagerCommand(
   action: DepManagerActionCommand,
   ...params: string[]
 ) {
@@ -97,24 +105,24 @@ export async function runDepInstaller(
     return
   }
 
-  const depInstallerCommand = await detectDepInstallerCommand()
+  const depInstallerCommand = await detectPkgManagerCommand()
 
   const actionName = depInstallerCommandMapper[action][depInstallerCommand]
 
   await exec(depInstallerCommand, [actionName, ...params])
 }
 
-export async function detectDepInstallerCommand(
+export async function detectPkgManagerCommand(
   cwd = process.cwd(),
 ): Promise<DepManagerCommand> {
-  const bunLockFile = join(cwd, 'bun.lockb')
-  if (exists(bunLockFile)) {
-    return 'bun'
-  }
-
   const pnpmLockFile = join(cwd, 'pnpm-lock.yaml')
   if (exists(pnpmLockFile)) {
     return 'pnpm'
+  }
+
+  const bunLockFile = join(cwd, 'bun.lockb')
+  if (exists(bunLockFile)) {
+    return 'bun'
   }
 
   const yarnLockFile = join(cwd, 'yarn.lock')
@@ -150,4 +158,24 @@ interface PackageJson {
   dependencies?: Record<string, string>
   devDependencies?: Record<string, string>
   [key: string]: any
+}
+
+/**
+ *
+ * @param pkg
+ *
+ * getPackageName('lodash@latest') => @types/lodash
+ * getPackageName('@babel/core') => @types/babel__core
+ *
+ */
+export function getTypePackageName(pkg: string) {
+  const idx = pkg.lastIndexOf('@')
+  const name = idx > 0 ? pkg.slice(0, idx) : pkg
+
+  if (name.includes('@')) {
+    const [scope, pkgName] = name.split('/')
+    return `@types/${scope.slice(1)}__${pkgName}`
+  } else {
+    return `@types/${name}`
+  }
 }

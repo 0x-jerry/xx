@@ -1,19 +1,46 @@
+import { DenoDependencyManager } from './dep/deno'
+import { NodeDependencyManager } from './dep/node'
+import { RustDependencyManager } from './dep/rust'
 import type { DependencyManager } from './dep/types'
 
 export class DepManager implements DependencyManager {
-  install(option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  managers = [
+    new NodeDependencyManager(),
+    new DenoDependencyManager(),
+    new RustDependencyManager(),
+  ]
+
+  async check(): Promise<boolean> {
+    return false
   }
 
-  add(modules: string[], option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async _getManager() {
+    for (const m of this.managers) {
+      if (await m.check()) {
+        return m
+      }
+    }
   }
 
-  remove(modules: string[], option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async install(option?: Record<string, string>): Promise<void> {
+    ;(await this._getManager())?.install(option)
   }
 
-  upgrade(modules: string[], option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async add(modules: string[], option?: Record<string, string>): Promise<void> {
+    ;(await this._getManager())?.add(modules, option)
+  }
+
+  async remove(
+    modules: string[],
+    option?: Record<string, string>,
+  ): Promise<void> {
+    ;(await this._getManager())?.remove(modules, option)
+  }
+
+  async upgrade(
+    modules: string[],
+    option?: Record<string, string>,
+  ): Promise<void> {
+    ;(await this._getManager())?.upgrade(modules, option)
   }
 }

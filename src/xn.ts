@@ -26,31 +26,21 @@ async function installAction(_: string[], opt: ActionParsedArgs) {
   const installOnly = !params.length
 
   if (installOnly) {
-    await new DepManager().install()
+    await new DepManager().install(opt)
     return
   }
 
-  // todo, parameters may has option like -D
-  await new DepManager().add(params)
-
-  // // install typedef for packages
-  // if (opt.types) {
-  //   const typesPackages = parameters
-  //     // ignore extra parameters
-  //     .filter((n) => !n.startsWith('-'))
-  //     .map((pkg) => getTypePackageName(pkg))
-  //   await runDepInstaller('add', ...typesPackages, '-D')
-  // }
+  await new DepManager().add(params, opt)
 }
 
 async function upgradeAction(_: string[], opt: ActionParsedArgs) {
   const params = opt._
 
-  await new DepManager().upgrade(params)
+  await new DepManager().upgrade(params, opt)
 }
 
 async function removeAction(_: string[], opt: ActionParsedArgs) {
   const params = opt._
 
-  await new DepManager().remove(params)
+  await new DepManager().remove(params, opt)
 }

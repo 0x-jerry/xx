@@ -14,3 +14,18 @@ export async function exec(
 export function exists(path: PathLike) {
   return existsSync(path)
 }
+
+export function flagOptionToStringArray(
+  opt: Record<string, string | null | number | boolean>,
+): string[] {
+  return Object.entries(opt)
+    .map(([_key, value]) => {
+      const key = (_key.length === 1 ? '-' : '--') + _key
+      if (typeof value === 'string' || typeof value === 'number') {
+        return [key, String(value)]
+      } else {
+        return [key]
+      }
+    })
+    .flat()
+}

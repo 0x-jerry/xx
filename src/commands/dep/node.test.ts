@@ -1,4 +1,4 @@
-import { getTypePackageName } from './xn'
+import { getTypePackageName } from './node'
 
 describe('get package type name', () => {
   it('should get package type name', () => {

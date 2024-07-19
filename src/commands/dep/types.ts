@@ -1,5 +1,10 @@
 export interface DependencyManager {
   /**
+   * Check if dependency should be managed by this manager
+   */
+  check(): Promise<boolean>
+
+  /**
    * Install dependency only.
    */
   install(option?: Record<string, string>): Promise<void>

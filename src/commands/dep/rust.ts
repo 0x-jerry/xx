@@ -1,19 +1,32 @@
+import { pathExists } from 'fs-extra'
+import path from 'path'
 import type { DependencyManager } from './types'
+import { exec } from '../../utils'
 
 export class RustDependencyManager implements DependencyManager {
-  install(option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  check(): Promise<boolean> {
+    return pathExists(path.join(process.cwd(), 'Cargo.toml'))
   }
 
-  add(modules: string[], option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async install(option?: Record<string, string>): Promise<void> {
+    await exec('cargo', ['check'])
   }
 
-  remove(modules: string[], option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async add(modules: string[], option?: Record<string, string>): Promise<void> {
+    await exec('cargo', ['add', ...modules])
   }
 
-  upgrade(modules: string[], option?: Record<string, string>): Promise<void> {
-    throw new Error('Method not implemented.')
+  async remove(
+    modules: string[],
+    option?: Record<string, string>,
+  ): Promise<void> {
+    await exec('cargo', ['remove', ...modules])
+  }
+
+  async upgrade(
+    modules: string[],
+    option?: Record<string, string>,
+  ): Promise<void> {
+    await exec('cargo', ['update', ...modules])
   }
 }
