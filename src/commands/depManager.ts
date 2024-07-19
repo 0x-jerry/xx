@@ -26,21 +26,21 @@ export class DepManager implements DependencyManager {
     ;(await this._getManager())?.install(option)
   }
 
-  async add(modules: string[], option?: Record<string, string>): Promise<void> {
-    ;(await this._getManager())?.add(modules, option)
+  async add(params: string[], option?: Record<string, string>): Promise<void> {
+    ;(await this._getManager())?.add(params, option)
   }
 
   async remove(
-    modules: string[],
+    params: string[],
     option?: Record<string, string>,
   ): Promise<void> {
-    ;(await this._getManager())?.remove(modules, option)
+    ;(await this._getManager())?.remove(params, option)
   }
 
   async upgrade(
-    modules: string[],
+    params: string[],
     option?: Record<string, string>,
   ): Promise<void> {
-    ;(await this._getManager())?.upgrade(modules, option)
+    ;(await this._getManager())?.upgrade(params, option)
   }
 }

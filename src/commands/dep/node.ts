@@ -5,6 +5,12 @@ import { readFile } from 'fs/promises'
 import type { DependencyManager } from './types'
 import { pathExists } from 'fs-extra'
 
+interface NodeInstallOption {
+  [key: string]: string | boolean | undefined
+  t?: boolean
+  types?: boolean
+}
+
 export class NodeDependencyManager implements DependencyManager {
   async check() {
     return pathExists(path.join(process.cwd(), 'package.json'))
@@ -14,13 +20,16 @@ export class NodeDependencyManager implements DependencyManager {
     await runDepManagerCommand('install')
   }
 
-  async add(
-    modules: string[],
-    option: Record<string, string> = {},
-  ): Promise<void> {
-    await runDepManagerCommand('add', ...modules)
+  async add(modules: string[], option: NodeInstallOption = {}): Promise<void> {
+    const { t, types, ...otherOption } = option
 
-    if (option.types) {
+    await runDepManagerCommand(
+      'add',
+      ...modules,
+      ...flagOptionToStringArray(otherOption),
+    )
+
+    if (types) {
       const typeModules = modules.map((pkg) => getTypePackageName(pkg))
       await runDepManagerCommand('add', ...typeModules, '-D')
     }
@@ -28,13 +37,16 @@ export class NodeDependencyManager implements DependencyManager {
 
   async remove(
     modules: string[],
-    option: Record<string, string> = {},
+    option: NodeInstallOption = {},
   ): Promise<void> {
-    await runDepManagerCommand(
-      'remove',
-      ...modules,
-      ...flagOptionToStringArray(option),
-    )
+    console.log(option)
+    if (option.types) {
+      const typeModules = modules.map((pkg) => getTypePackageName(pkg))
+
+      modules.push(...typeModules)
+    }
+
+    await runDepManagerCommand('remove', ...modules)
   }
 
   async upgrade(

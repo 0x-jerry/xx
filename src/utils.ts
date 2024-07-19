@@ -16,7 +16,7 @@ export function exists(path: PathLike) {
 }
 
 export function flagOptionToStringArray(
-  opt: Record<string, string | null | number | boolean>,
+  opt: Record<string, string | null | number | boolean | undefined>,
 ): string[] {
   return Object.entries(opt)
     .map(([_key, value]) => {

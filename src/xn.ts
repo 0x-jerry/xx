@@ -7,13 +7,15 @@ sliver`
 
 xn, install dependency quickly, support node/deno/cargo. ${defaultAction}
 
-i/install [...modules] #stopEarly, install dependencies. ${installAction}
+i/install [...modules], install dependencies. ${installAction}
 
 -t --types @bool, install package's types too, only effect node project.
 
-up/upgrade [...modules] #stopEarly, upgrade dependencies. ${upgradeAction}
+up/upgrade [...modules], upgrade dependencies. ${upgradeAction}
 
-rm/remove <...modules> #stopEarly, remove dependencies. ${removeAction}
+rm/remove <...modules>, remove dependencies. ${removeAction}
+
+-t --types @bool, remove package's types too, only effect node project.
 `
 
 async function defaultAction() {
@@ -21,26 +23,39 @@ async function defaultAction() {
 }
 
 async function installAction(_: string[], opt: ActionParsedArgs) {
-  const params = opt._
+  const { params, options } = getParameters(opt)
 
   const installOnly = !params.length
 
   if (installOnly) {
-    await new DepManager().install(opt)
+    await new DepManager().install(options)
     return
   }
 
-  await new DepManager().add(params, opt)
+  await new DepManager().add(params, options)
 }
 
 async function upgradeAction(_: string[], opt: ActionParsedArgs) {
-  const params = opt._
+  const { params, options } = getParameters(opt)
 
-  await new DepManager().upgrade(params, opt)
+  await new DepManager().upgrade(params, options)
 }
 
 async function removeAction(_: string[], opt: ActionParsedArgs) {
-  const params = opt._
+  const { params, options } = getParameters(opt)
 
-  await new DepManager().remove(params, opt)
+  await new DepManager().remove(params, options)
+}
+
+function getParameters(opt: ActionParsedArgs) {
+  const params = opt._
+  const otherOpt: Record<string, string> = { ...opt }
+
+  delete otherOpt._
+  delete otherOpt['--']
+
+  return {
+    params,
+    options: otherOpt,
+  }
 }

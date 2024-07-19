@@ -7,20 +7,29 @@ export interface DependencyManager {
   /**
    * Install dependency only.
    */
-  install(option?: Record<string, string>): Promise<void>
+  install(option?: Record<string, string | boolean>): Promise<void>
 
   /**
    * Add dependency.
    */
-  add(modules: string[], option?: Record<string, string>): Promise<void>
+  add(
+    modules: string[],
+    option?: Record<string, string | boolean>,
+  ): Promise<void>
 
   /**
    * Remove dependency.
    */
-  remove(modules: string[], option?: Record<string, string>): Promise<void>
+  remove(
+    modules: string[],
+    option?: Record<string, string | boolean>,
+  ): Promise<void>
 
   /**
    * Upgrade dependency.
    */
-  upgrade(modules: string[], option?: Record<string, string>): Promise<void>
+  upgrade(
+    modules: string[],
+    option?: Record<string, string | boolean>,
+  ): Promise<void>
 }
