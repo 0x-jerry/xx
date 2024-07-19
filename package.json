@@ -39,7 +39,6 @@
     "format": [
       "esm"
     ],
-    "dts": true,
     "clean": true
   },
   "dependencies": {
