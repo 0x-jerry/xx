@@ -13,7 +13,7 @@ export class DenoDependencyManager implements DependencyManager {
   }
 
   async install(option?: Record<string, string>): Promise<void> {
-    await exec('deno', ['cache'])
+    throw new Error('Deno project do not need to install dependencies')
   }
 
   async add(modules: string[], option?: Record<string, string>): Promise<void> {
