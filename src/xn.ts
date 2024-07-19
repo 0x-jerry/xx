@@ -1,19 +1,20 @@
 #!/usr/bin/env node
 import { sliver, type ActionParsedArgs } from '@0x-jerry/silver'
 import { DepManager } from './commands/depManager'
+import { version } from '../package.json'
 
 sliver`
-@help @autocompletion
+v${version} @help @autocompletion
 
-xn, install dependency quickly, support node/deno/cargo. ${defaultAction}
+xn, is a dependency manage tool, it is support node/deno/cargo. ${defaultAction}
 
-i/install [...modules], install dependencies. ${installAction}
+i/install [...modules], Install dependencies. ${installAction}
 
 -t --types @bool, install package's types too, only effect node project.
 
-up/upgrade [...modules], upgrade dependencies. ${upgradeAction}
+up/upgrade [...modules], Upgrade dependencies. ${upgradeAction}
 
-rm/remove <...modules>, remove dependencies. ${removeAction}
+rm/remove <...modules>, Remove dependencies. ${removeAction}
 
 -t --types @bool, remove package's types too, only effect node project.
 `

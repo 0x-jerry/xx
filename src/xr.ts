@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import { sliver, type ActionParsedArgs } from '@0x-jerry/silver'
 import { getAvailableCommands, runScript } from './commands/run'
+import { version } from '../package.json'
 
 const ins = sliver`
-@help @autocompletion
+v${version} @help @autocompletion
 
 xr [@command:command] #stopEarly, run command quickly. ${defaultAction}
 `
