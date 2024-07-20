@@ -10,13 +10,13 @@ xn, is a dependency manage tool, it is support node/deno/cargo. ${defaultAction}
 
 i/install [...modules], Install dependencies. ${installAction}
 
--t --types @bool, install package's types too, only effect node project.
+-t --types @bool, install package's type too, only take effect in node project.
 
 up/upgrade [...modules], Upgrade dependencies. ${upgradeAction}
 
 rm/remove <...modules>, Remove dependencies. ${removeAction}
 
--t --types @bool, remove package's types too, only effect node project.
+-t --types @bool, remove package's type too, only take effect in node project.
 `
 
 async function defaultAction() {
