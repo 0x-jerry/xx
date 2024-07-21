@@ -39,7 +39,6 @@ export class NodeDependencyManager implements DependencyManager {
     modules: string[],
     option: NodeInstallOption = {},
   ): Promise<void> {
-    console.log(option)
     if (option.types) {
       const typeModules = modules.map((pkg) => getTypePackageName(pkg))
 
