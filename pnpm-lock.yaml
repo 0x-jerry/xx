@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@0x-jerry/silver':
         specifier: ^1.0.3
-        version: 1.0.3
+        version: 1.1.1
       '@0x-jerry/utils':
         specifier: ^2.4.3
         version: 2.4.3
@@ -78,12 +78,15 @@ packages:
   '@0x-jerry/load-pkg@0.1.5':
     resolution: {integrity: sha512-OsG9WZfCDzLaIC5t7HNHAYdpvZEf5efs/+fLEXsbOQr3IdZyMuWA27utAOsrNwTfl1BCgr6+r048ZyMd9YE72Q==}
 
-  '@0x-jerry/silver@1.0.3':
-    resolution: {integrity: sha512-j9WXeWxmaGbUC+2GvVNaX/NyAf3YAHYUCEjRIUAc92odJsgwYNqP/V7XnR61W1yn33h/6pozDTqj5eeBppzwnw==}
+  '@0x-jerry/silver@1.1.1':
+    resolution: {integrity: sha512-KWSGomQ2RLE2pMYz1Dl3jbH8jR3iaHv5xaU1dTxXz6et17IAiuoNFRFLMQr2HOqTGnGl6HNjDsy/BB5P6UfHIA==}
     engines: {node: '>= 18'}
 
   '@0x-jerry/utils@2.4.3':
     resolution: {integrity: sha512-mgs+kpIV+mPMkr7O3/3Fe9PvFx9dGyum8tlQl5KEN4JeuPOqChkwyWjtp95QOYqXFyAoyy1PWIksF74+6dWdOQ==}
+
+  '@0x-jerry/utils@3.0.2':
+    resolution: {integrity: sha512-tY1EfOS4T74ek31OqKL5mR4qQGqMI906TpHS4q3QYVdQ9r1UNPUlHRmnng5YhupVFC0A2k8FcLy9BkpYASBL+g==}
 
   '@0x-jerry/x-release@2.2.2':
     resolution: {integrity: sha512-WgOXuzoLhZeyeQnjXAsOfMmG45DzFZx7BUCPABjT5uaBOOIIpzXmo5JO1vu3jE2TlNpermfOE//YSXhUyPxURQ==}
@@ -767,6 +770,7 @@ packages:
 
   boolean@3.2.0:
     resolution: {integrity: sha512-d0II/GO9uf9lfUHH2BQsjxzRJZBdsjgsBiW4BvhWk/3qoKwQFjIDVN19PfX8F2D/r9PCMTtLWjYVCFrpeYUzsw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   brace-expansion@2.0.1:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
@@ -1346,6 +1350,11 @@ packages:
     engines: {node: ^18 || >=20}
     hasBin: true
 
+  nanoid@5.0.9:
+    resolution: {integrity: sha512-Aooyr6MXU6HpvvWXKoVoXwKMs/KyVakWwg7xQfv5/S/RIgJMy0Ifa45H9qqYy7pTCszrHzP21Uk4PZq2HpEM8Q==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
@@ -1424,6 +1433,9 @@ packages:
 
   picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
+
+  picocolors@1.1.1:
+    resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
   picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
@@ -1858,17 +1870,23 @@ snapshots:
 
   '@0x-jerry/load-pkg@0.1.5': {}
 
-  '@0x-jerry/silver@1.0.3':
+  '@0x-jerry/silver@1.1.1':
     dependencies:
-      '@0x-jerry/utils': 2.4.3
+      '@0x-jerry/utils': 3.0.2
       minimist: 1.2.8
       ohm-js: 17.1.0
-      picocolors: 1.0.1
+      picocolors: 1.1.1
 
   '@0x-jerry/utils@2.4.3':
     dependencies:
       fflate: 0.8.2
       nanoid: 5.0.7
+      picocolors: 1.0.1
+
+  '@0x-jerry/utils@3.0.2':
+    dependencies:
+      fflate: 0.8.2
+      nanoid: 5.0.9
       picocolors: 1.0.1
 
   '@0x-jerry/x-release@2.2.2':
@@ -2983,6 +3001,8 @@ snapshots:
 
   nanoid@5.0.7: {}
 
+  nanoid@5.0.9: {}
+
   normalize-path@3.0.0: {}
 
   normalize-url@8.0.1: {}
@@ -3047,6 +3067,8 @@ snapshots:
   pend@1.2.0: {}
 
   picocolors@1.0.1: {}
+
+  picocolors@1.1.1: {}
 
   picomatch@2.3.1: {}
 
