@@ -14,6 +14,8 @@ i/install [...modules], Install dependencies. ${installAction}
 
 up/upgrade [...modules], Upgrade dependencies. ${upgradeAction}
 
+-L --latest @bool, upgrade to the latest version.
+
 rm/remove <...modules>, Remove dependencies. ${removeAction}
 
 -t --types @bool, remove package's type too, only take effect in node project.
@@ -52,6 +54,7 @@ function getParameters(opt: ActionParsedArgs) {
   const params = opt._
   const otherOpt: Record<string, string> = { ...opt }
 
+  delete otherOpt.L
   delete otherOpt._
   delete otherOpt['--']
 
