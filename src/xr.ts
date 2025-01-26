@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import { sliver, type ActionParsedArgs } from '@0x-jerry/silver'
-import { getAvailableCommands, runScript } from './commands/run'
+import { type ActionParsedArgs, sliver } from '@0x-jerry/silver'
 import { version } from '../package.json'
+import { getAvailableCommands, runScript } from './commands/run'
 
 const ins = sliver`
 v${version} @help @autocompletion

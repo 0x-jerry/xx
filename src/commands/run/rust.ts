@@ -1,5 +1,5 @@
+import path from 'node:path'
 import { pathExists } from 'fs-extra'
-import path from 'path'
 import type { TaskDetector } from './types'
 
 export class RustTaskDetecter implements TaskDetector {

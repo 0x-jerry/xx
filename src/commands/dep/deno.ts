@@ -1,7 +1,7 @@
+import path from 'node:path'
 import { pathExists } from 'fs-extra'
-import type { DependencyManager } from './types'
-import path from 'path'
 import { exec } from '../../utils'
+import type { DependencyManager } from './types'
 
 export class DenoDependencyManager implements DependencyManager {
   check(): Promise<boolean> {

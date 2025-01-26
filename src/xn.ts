@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import { sliver, type ActionParsedArgs } from '@0x-jerry/silver'
-import { DepManager } from './commands/depManager'
+import { type ActionParsedArgs, sliver } from '@0x-jerry/silver'
 import { version } from '../package.json'
+import { DepManager } from './commands/depManager'
 
 sliver`
 v${version} @help @autocompletion
@@ -54,9 +54,9 @@ function getParameters(opt: ActionParsedArgs) {
   const params = opt._
   const otherOpt: Record<string, string> = { ...opt }
 
-  delete otherOpt.L
-  delete otherOpt._
-  delete otherOpt['--']
+  otherOpt.L = undefined
+  otherOpt._ = undefined
+  otherOpt['--'] = undefined
 
   return {
     params,

@@ -1,9 +1,9 @@
-import path, { join } from 'path'
+import { readFile } from 'node:fs/promises'
+import path, { join } from 'node:path'
+import { pathExists } from 'fs-extra'
 import pc from 'picocolors'
 import { exec, exists, flagOptionToStringArray } from '../../utils'
-import { readFile } from 'fs/promises'
 import type { DependencyManager } from './types'
-import { pathExists } from 'fs-extra'
 
 interface NodeInstallOption {
   [key: string]: string | boolean | undefined
@@ -186,7 +186,6 @@ export function getTypePackageName(pkg: string) {
   if (name.includes('@')) {
     const [scope, pkgName] = name.split('/')
     return `@types/${scope.slice(1)}__${pkgName}`
-  } else {
-    return `@types/${name}`
   }
+  return `@types/${name}`
 }

@@ -1,7 +1,7 @@
+import path from 'node:path'
 import { pathExists } from 'fs-extra'
-import path from 'path'
-import type { DependencyManager } from './types'
 import { exec } from '../../utils'
+import type { DependencyManager } from './types'
 
 export class RustDependencyManager implements DependencyManager {
   check(): Promise<boolean> {

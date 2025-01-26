@@ -1,7 +1,7 @@
+import { readFile, readdir } from 'node:fs/promises'
+import path from 'node:path'
 import { pathExists } from 'fs-extra'
 import type { TaskDetector } from './types'
-import path from 'path'
-import { readdir, readFile } from 'fs/promises'
 
 export class NodeTaskDetecter implements TaskDetector {
   async binaryPaths(cwd: string): Promise<string[]> {

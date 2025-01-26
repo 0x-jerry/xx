@@ -1,8 +1,8 @@
-import { parse } from 'jsonc-parser'
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
 import { pathExists } from 'fs-extra'
+import { parse } from 'jsonc-parser'
 import type { TaskDetector } from './types'
-import path from 'path'
-import { readFile } from 'fs/promises'
 
 export class DenoTaskDetecter implements TaskDetector {
   check(cwd: string): Promise<boolean> {

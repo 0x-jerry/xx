@@ -1,10 +1,10 @@
-import path from 'path'
+import path from 'node:path'
 import pc from 'picocolors'
 import { exec } from '../utils.ts'
-import type { TaskDetector } from './run/types.ts'
-import { NodeTaskDetecter } from './run/node.ts'
 import { DenoTaskDetecter } from './run/deno.ts'
+import { NodeTaskDetecter } from './run/node.ts'
 import { RustTaskDetecter } from './run/rust.ts'
+import type { TaskDetector } from './run/types.ts'
 
 export async function runScript(command: string, params: string[] = []) {
   const taskDetectors: TaskDetector[] = [

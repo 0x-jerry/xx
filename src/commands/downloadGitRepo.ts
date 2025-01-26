@@ -1,13 +1,13 @@
-import path from 'node:path'
-import os from 'node:os'
 import { createWriteStream } from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import { pipeline } from 'node:stream/promises'
-import prompts from 'prompts'
-import pc from 'picocolors'
-import got from 'got'
-import fs from 'fs-extra'
-import ora from 'ora'
 import decompress from 'decompress'
+import fs from 'fs-extra'
+import got from 'got'
+import ora from 'ora'
+import pc from 'picocolors'
+import prompts from 'prompts'
 
 export interface DownloadGitRepoOption {
   destDir: string
@@ -19,7 +19,7 @@ export async function downloadGitRepo(opt: DownloadGitRepoOption) {
   let { url, branch = 'main', destDir } = opt
 
   if (!url) {
-    console.log(pc.red(`Please specify git url by using -u,--url`))
+    console.log(pc.red('Please specify git url by using -u,--url'))
 
     return
   }
