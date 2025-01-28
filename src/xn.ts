@@ -54,9 +54,11 @@ function getParameters(opt: ActionParsedArgs) {
   const params = opt._
   const otherOpt: Record<string, string> = { ...opt }
 
-  otherOpt.L = undefined
-  otherOpt._ = undefined
-  otherOpt['--'] = undefined
+  const blockOptions = ['_', '--', 'L']
+
+  for (const opt of blockOptions) {
+    Reflect.deleteProperty(otherOpt, opt)
+  }
 
   return {
     params,
